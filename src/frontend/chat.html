@@ -15,7 +15,7 @@
         <ul id="searchResult"></ul>
         <ul id="userList"></ul>
     </div>
-
+    
     <div class="container">
       <div class="chat-header">
         <h2 id="receiverName"></h2> 
@@ -244,7 +244,9 @@ function resetTimestamp(userName) {
 }
 loadUsers();
 
-// const username = localStorage.getItem('senderName')
+// const username = localStorage.getItem('senderName');
+
+
 async function deleteMessage(messageId) {
     // console.log(messageId);
 
@@ -255,7 +257,7 @@ async function deleteMessage(messageId) {
                 Authorization: `Bearer ${token}`
             }
         });
-        console.log(response)
+        // console.log(response)
 
         if (!response.ok) {
             throw new Error('Failed to delete the message');
@@ -265,6 +267,7 @@ async function deleteMessage(messageId) {
 
         if (result.message === 'Message deleted successfully') {
             removeMessage(messageId);
+            socket.emit('deleteMessage', { messageId, receiverId });
         }
     
         loadMessages(receiverId);
@@ -275,14 +278,20 @@ async function deleteMessage(messageId) {
        }   
     }
 
-    function removeMessage(messageId) {
+    socket.on('messageDeleted', ({ messageId }) => {
+    console.log('Received messageDeleted event for messageId:', messageId);
     const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
     if (messageDiv) {
-        messageDiv.textContent = 'This Message deleted';
+        messageDiv.textContent = 'This message was deleted';
         messageDiv.classList.add('deleted-message');
-         setTimeout(() => {
-            messageDiv.remove();
-        }, 3000)
+    }
+});
+
+    function removeMessage(messageId) {
+        const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
+    if (messageDiv) {
+        messageDiv.textContent = 'This Message was deleted';
+        messageDiv.classList.add('deleted-message');
     }
 }
 

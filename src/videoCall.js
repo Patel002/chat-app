@@ -1,8 +1,3 @@
-
-const AGORA_APP_ID = '4776f47a8a3e42658542f936e2b2c1a2';  
-const AGORA_CHANNEL = 'test_channel';   
-const AGORA_TOKEN = null;
-
 const socket = io('http://localhost:7116', {
     auth: { token: localStorage.getItem('token') }
 });
@@ -15,23 +10,32 @@ const videoToggleButton = document.getElementById('videoToggleButton');
 
 let localStream;
 let remoteStream = new MediaStream();
+
 let localTracks = {
     videoTrack: null,
     audioTrack: null
 };
+
 let remoteUsers = {};
 let isMuted = true;
 let isVideoEnabled = true
+let callInProgress = false;
 
 const token = localStorage.getItem('token');
 const payload = JSON.parse(atob(token.split('.')[1]));
 const senderId = payload.id;
 console.log('senderId:', senderId);
 
+
 const urlParams = new URLSearchParams(window.location.search);
 let receiverId = urlParams.get('userId');
-localStorage.setItem('userId', senderId);
-let callInProgress = false;
+// localStorage.setItem('userId', senderId);
+
+
+const AGORA_APP_ID = '4776f47a8a3e42658542f936e2b2c1a2';   
+const AGORA_TOKEN = null;
+const AGORA_CHANNEL = `${Math.min(senderId, receiverId)}_${Math.max(senderId, receiverId)}`;
+
 
 const agoraClient = AgoraRTC.createClient({
     mode: 'rtc',
@@ -53,9 +57,10 @@ async function startCall() {
                     AGC: true
                 }
             }),
+
             AgoraRTC.createCameraVideoTrack({
                 encoderConfig: {
-                    resolution: '640x360',
+                    resolution: '940x540',
                     frameRate: 15,
                     bitrateMin: 400,
                     bitrateMax: 600,
@@ -68,8 +73,6 @@ async function startCall() {
 
         videoTrack.play('localVideo');
        
-
-
         await agoraClient.join(AGORA_APP_ID, AGORA_CHANNEL, AGORA_TOKEN || null, senderId);
         await agoraClient.publish([audioTrack, videoTrack]);
         audioTrack.setEnabled(false);
@@ -77,24 +80,44 @@ async function startCall() {
 
         callInProgress = true;
 
+        if (receiverId) {
+            await subscribeToUser({ uid: receiverId }, 'video');
+            await subscribeToUser({ uid: receiverId }, 'audio');
+        }
       
         agoraClient.on('user-published', async (user, mediaType) => {
-            console.log(`User published: ${user.uid}`);
-            await subscribeToUser(user, mediaType);
+            if (user.uid == receiverId) {
+                console.log(`User published: ${user.uid}`);
+                await subscribeToUser(user, mediaType);
+            }
         });
 
-    
-        const existingUsers = await agoraClient.remoteUsers;
-        existingUsers.forEach(async (user) => {
-            console.log(`Subscribing to existing user: ${user.uid}`);
-            await subscribeToUser(user, 'video');
-            await subscribeToUser(user, 'audio');
-        });
+        // const existingUsers = await agoraClient.remoteUsers;
+        // existingUsers.forEach(async (user) => {
+        //     console.log(`Subscribing to existing user: ${user.uid}`);
+        //     await subscribeToUser(user, 'video');
+        //     await subscribeToUser(user, 'audio');
+        // });
+        
+        const existingUsers = agoraClient.remoteUsers;
+
+        for (const user of existingUsers) {
+            if (user.uid == receiverId) {
+                console.log(`Subscribing to existing user: ${user.uid}`);
+                await subscribeToUser(user, 'video');
+                await subscribeToUser(user, 'audio');
+            } else {
+                console.log(`Skipping existing user: ${user.uid}, not the receiverId.`);
+            }
+        }
 
     } catch (error) {
         console.error('Error starting call:', error);
     }
 }
+
+socket.emit('callUser', { to: receiverId, from: senderId });
+
 
 async function subscribeToUser(user, mediaType) {
     try {
@@ -157,19 +180,19 @@ function toggleVideo() {
     }
 
     if (isVideoOn) {
-        localTracks.videoTrack.setEnabled(false)
-            .then(() => {
-                document.getElementById('videoToggleButton').innerHTML = '<i class="fas fa-video-slash"></i>';
-                isVideoOn = false;
-                console.log("Video disabled.");
-            })
-            .catch(error => console.error("Failed to disable video:", error));
-    } else {
         localTracks.videoTrack.setEnabled(true)
             .then(() => {
                 document.getElementById('videoToggleButton').innerHTML = '<i class="fas fa-video"></i>';
-                isVideoOn = true;
+                isVideoOn = false;
                 console.log("Video enabled.");
+            })
+            .catch(error => console.error("Failed to disable video:", error));
+    } else {
+        localTracks.videoTrack.setEnabled(false)
+            .then(() => {
+                document.getElementById('videoToggleButton').innerHTML = '<i class="fas fa-video-slash"></i>';
+                isVideoOn = true;
+                console.log("Video disabled.");
             })
             .catch(error => console.error("Failed to enable video:", error));
     }
