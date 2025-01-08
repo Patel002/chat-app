@@ -2,10 +2,10 @@ import mysql from "mysql2"
 
 
 const dbConfig = {
-    host: "localhost",
-    user: "root",
-    password: "dhtsol",
-    database: "chat_app"    
+    host: "YOUR_DATABASE_HOST_NAME",
+    user: "YOUR_DATABASE_USERNAME",
+    password: "YOUR_DATABASE_PASSWORD",
+    database: "YOUR_DATABASE_NAME"    
 }
 
 
