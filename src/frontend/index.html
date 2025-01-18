@@ -36,7 +36,7 @@
             const username = document.getElementById('LoginUsername').value;
             const password = document.getElementById('LoginPassword').value;
 
-            const response = await fetch('http://192.168.1.18:7116/api/v1/user/login',{
+            const response = await fetch('http://localhost:7116/api/v1/user/login',{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -59,7 +59,7 @@
             const password = document.getElementById('RegisterPassword').value;
             const email = document.getElementById('RegisterEmail').value;
 
-            const response = await fetch('http://192.168.1.18:7116/api/v1/user/register',{
+            const response = await fetch('http://localhost:7116/api/v1/user/register',{
                 method: 'POST',
                 headers: {
                     'content-Type': 'application/json'

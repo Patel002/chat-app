@@ -143,18 +143,21 @@ async function subscribeToUser(user, mediaType) {
 }
 
 async function leaveCall() {
-    if (!callInProgress) return;
-
     try {
-        await agoraClient.unpublish(Object.values(localTracks));
-        localTracks.videoTrack?.close();
-        localTracks.audioTrack?.close();
-        localTracks = { videoTrack: null, audioTrack: null };
+        if (localTracks.videoTrack) {
+            localTracks.videoTrack.stop();
+            localTracks.videoTrack.close(); 
+        }
+        if (localTracks.audioTrack) {
+            localTracks.audioTrack.stop(); 
+            localTracks.audioTrack.close(); 
+        }
+        
+        localTracks = { videoTrack: null, audioTrack: null }; 
 
-        await agoraClient.leave();
-        callInProgress = false;
+        await agoraClient.leave(); 
 
-        console.log('Left the call.');
+        console.log('Left the call successfully.');
     } catch (error) {
         console.error('Error leaving call:', error);
     }
@@ -203,7 +206,9 @@ function endCall() {
         localStream.getTracks().forEach(track => track.stop());
     }
     socket.emit('endCall', { to: receiverId });
-    window.stop();
+    if (socket) {
+        socket.close();
+    }
     window.location.href = 'chat.html';
 }
 

@@ -349,10 +349,9 @@ body {
 }
 
 .delete-button:hover svg {
-    fill: #075E54;
+    fill: #065249df;
     
 }
-
 .deleted-message {
     color: #888;
     font-style: italic;
@@ -371,9 +370,93 @@ body {
     border: none;
     padding: 8px;
     cursor: pointer;
-  }
+}
   
   .chat-header button svg {
     display: block;
     margin: 0;
   }
+
+  @media screen and (max-width: 768px) {
+    .sidebar {
+        min-width: 200px;
+        max-width: 250px;
+    }
+
+    #userList li {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .chat-header {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .chat-input {
+        padding: 5px;
+    }
+
+    .chat-input input {
+        padding: 10px;
+    }
+
+    .send, .received {
+        max-width: 85%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .sidebar {
+        display: none;
+    }
+
+    .chat-header {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .chat-input input {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .send, .received {
+        max-width: 90%;
+        font-size: 12px;
+    }
+}
+
+.sidebar-toggle {
+    position: fixed;
+    top: 15px;
+    left: 20px;
+    z-index: 1100;
+    background: #075e54;
+    color: white;
+    padding: 3px;
+    border: none;
+    border-radius: 35%;
+    cursor: pointer;
+    transition: top 0.3s ease, left 0.3s ease, opacity 0.3s ease;
+    display: none; 
+}
+
+@media screen and (max-width: 480px) {
+    .sidebar-toggle {
+        display: block; 
+        top: 10px;
+        left: 10px;
+    }
+    .sidebar {
+        display: none; 
+    }
+    .sidebar.open {
+        padding-top: 40px;
+        display: inline;
+    }
+    .container{
+        margin-left: 0;
+    }
+
+}

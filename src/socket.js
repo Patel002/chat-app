@@ -94,7 +94,6 @@ socket.on("getUsers", async () => {
                 });
             }
             
-
             io.to(socket.id).emit("receiveMessage", {
                 id: message.id,
                 content: decryptMessages(message.content),
@@ -108,7 +107,18 @@ socket.on("getUsers", async () => {
                 console.error(error);
     }
         })
+
+        socket.on("typing...", (data) => {
+            const { receiverId } = data;
+            const senderId = socket.user.id;
+            io.to(receiverId).emit("typing", { senderId });
+        })
         
+        socket.on('deleteMessage',({messageId,receiverId}) => {
+            io.to(receiverId).emit('messageDeleted', messageId);
+            socket.emit('messageDeleted', { messageId });
+        })
+
         socket.on('videoCallOffer', ({ offer, to, from }) => {
             io.to(to).emit('videoCallOffer', { offer, from });
         });
@@ -118,10 +128,9 @@ socket.on("getUsers", async () => {
         });
         
         socket.on('endCall', ({ to }) => {
-
             io.to(to).emit('endCall');
+            socket.disconnect(true)
         });
-        
         
         socket.on("disconnect", () => {
             console.log("disconnected", socket.id);

@@ -1,11 +1,10 @@
-/* General Reset */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
   
-  /* Body and general layout */
   body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -15,7 +14,6 @@
     background-color: #101010;
   }
   
-  /* Main container for the voice call */
   #voiceCallContainer {
     position: relative;
     width: 100%;
@@ -90,7 +88,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   }
   
-  /* Media Queries for responsive design */
+
   @media (max-width: 768px) {
     #controls {
       gap: 20px;

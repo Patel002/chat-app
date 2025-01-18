@@ -1,7 +1,3 @@
-const AGORA_APP_ID = 'be1a0d343fb54bac8cf7adc8615d8648';
-const AGORA_CHANNEL = 'testing_channel';
-const AGORA_TOKEN = null;
-
 const localAudio = document.getElementById('localAudio');
 const remoteAudio = document.getElementById('remoteAudio');
 const endCallButton = document.getElementById('endCallButton');
@@ -14,11 +10,14 @@ let remoteUsers = {};
 let callInProgress = false;
 let isMuted = true;
 
+const AGORA_APP_ID = 'be1a0d343fb54bac8cf7adc8615d8648';
+const AGORA_CHANNEL = 'testing_channel';
+const AGORA_TOKEN = null;
+
 const agoraClient = AgoraRTC.createClient({
     mode: 'rtc',
     codec: 'vp8'
 });
-
 
 async function startVoiceCall() {
     if (callInProgress) return;
@@ -82,7 +81,6 @@ async function subscribeToUser(user) {
         console.error(`Failed to subscribe to user ${user.uid}:`, error);
     }
 }
-
 
 function toggleMute() {
 

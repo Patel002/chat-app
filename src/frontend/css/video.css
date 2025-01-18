@@ -1,11 +1,10 @@
-/* Global Reset */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Body Styling */
 body {
   display: flex;
   justify-content: center;
@@ -15,7 +14,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* Main Container for Video Call */
+
 #videoCallContainer {
   position: relative;
   width: 100%;
@@ -29,14 +28,12 @@ body {
   justify-content: space-between;
 }
 
-/* Remote Video Styling */
 #remoteVideo {
   width: 100%;
-  height: calc(100% - 90px); /* Deduct control bar height */
+  height: calc(100% - 90px); 
   object-fit: cover;
   background-color: #444;
 }
-
 
 #localVideo {
   position: absolute;
@@ -53,10 +50,10 @@ body {
   position: absolute;
   bottom: 2px; 
   width: 100%; 
-  height: 88px; /* Reduced height for compactness */
-  background-color: rgba(18, 18, 18, 0.95); /* Dark background for contrast */
+  height: 88px;
+  background-color: rgba(18, 18, 18, 0.95);
   display: flex;
-  justify-content: space-evenly; /* Evenly spaced buttons */
+  justify-content: space-evenly; 
   align-items: center;
  
   border-radius: 1px; 
@@ -98,7 +95,7 @@ body {
   background-color: #ff1a1a;
 }
 
-/* Button Icon Styling */
+
 .control-btn i {
-  font-size: 20px; /* Adjusted icon size */
+  font-size: 20px;
 }

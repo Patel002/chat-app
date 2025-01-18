@@ -2,16 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable= flase ">
     <title>Chat</title>
     <link rel="stylesheet" href="css/sidebar.css">
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 
 </head>
 <body>
+    <button class="sidebar-toggle" aria-label="Toggle Sidebar">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="white" width="15" height="15"  viewBox="0 0 15 15" >
+            <path d="M3 6h18c.552 0 1-.448 1-1s-.448-1-1-1H3c-.552 0-1 .448-1 1s.448 1 1 1zm0 5h18c.552 0 1-.448 1-1s-.448-1-1-1H3c-.552 0-1 .448-1 1s.448 1 1 1zm0 5h18c.552 0 1-.448 1-1s-.448-1-1-1H3c-.552 0-1 .448-1 1s.448 1 1 1z"/>
+        </svg>
+    </button>
     <div class="sidebar">
         <h2>Chat</h2>
-        <input type="search" id="searchInput" placeholder="Search or start new chat">
+       <input type="search" id="searchInput" placeholder="Search or start new chat">
         <ul id="searchResult"></ul>
         <ul id="userList"></ul>
     </div>
@@ -47,7 +52,39 @@
         </div>
     </div>
     <script>
-    
+
+const sidebar = document.querySelector('.sidebar');
+const toggleButton = document.querySelector('.sidebar-toggle');
+
+function handleToggleButton() {
+    if (window.innerWidth <= 480) {
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            
+            if (sidebar.classList.contains('open')) {
+                toggleButton.style.opacity = '0'; 
+            } else {
+                toggleButton.style.opacity = '1';
+            }
+        });
+    }
+}
+
+window.addEventListener('resize', () => {
+
+    if (window.innerWidth <= 480) {
+        handleToggleButton();
+        toggleButton.style.display = 'block'; 
+    } else {
+        toggleButton.removeEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+        toggleButton.style.display = 'none'; 
+    }
+});
+
+handleToggleButton();
+
         let offset = 0;
         let limit = 20;
 
@@ -84,7 +121,7 @@
         document.addEventListener('DOMContentLoaded', () => {
         const videoCallButton = document.querySelector('.videoCall');
         const token = localStorage.getItem('token');
-    
+                  
     videoCallButton.addEventListener('click', () => {
         if (!token) {
             alert('You must be logged in to make a video call.');
@@ -100,7 +137,6 @@
         window.location.href = `videoCall.html?userId=${receiverId}`;
     });
 });
-
 
         const socket = io('http://localhost:7116',{
             auth: {
@@ -148,7 +184,6 @@ function resetTimestamp(userName) {
         if(query)
     {
         try {
-
             const response = await fetch(`http://localhost:7116/api/v1/user/users/${isNaN(query) ?'': query }/${isNaN(query) ? query: '' }`,
          {
             headers: {
@@ -158,10 +193,9 @@ function resetTimestamp(userName) {
             if (!response.ok) {
                 throw new Error('Error fetching search results');
             }
-
             const data = await response.json();
             const users = data.users;
-            console.log(users);
+         
             searchResult.innerHTML = ''; 
             
             if(users){
@@ -212,7 +246,6 @@ function resetTimestamp(userName) {
             userItem.textContent = ` ${user.userName}`;
             userItem.classList.add('user-item');
             userItem.setAttribute('data-user-id', user.id);
-
             const unreadCount = document.createElement('span');
             unreadCount.classList.add('unread-count');
             unreadCount.textContent = user.unreadCount;
