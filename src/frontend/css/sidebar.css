@@ -453,7 +453,7 @@ body {
     }
     .sidebar.open {
         padding-top: 40px;
-        display: inline;
+        display: block;
     }
     .container{
         margin-left: 0;
