@@ -5,7 +5,8 @@ const dbConfig = {
     host: "localhost",
     user: "root",
     password: "dhtsol",
-    database: "chat_app"    
+    database: "chat_app",
+    port: 3306
 }
 
 
