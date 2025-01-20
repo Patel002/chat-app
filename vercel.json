@@ -12,6 +12,10 @@
     {
       "src": "src/public/**",
       "use": "@vercel/static"
+    },
+    {
+      "src": "src/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -26,6 +30,10 @@
     {
       "src": "/public/(.*)",
       "dest": "src/public/$1"
+    },
+    {
+      "src": "/src/(.*)",
+      "dest": "src/$1"
     }
   ]
 }
