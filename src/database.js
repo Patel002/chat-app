@@ -15,8 +15,11 @@ const database = async() => {
         const db = mysql.createConnection(dbConfig)
         
         db.connect((err) => {
-            if(err) {throw err}
-            console.log(`Database connected: ${dbConfig.database}`)
+            if (err) {
+                console.error('Error connecting to MySQL:', err.message);
+                return;
+            }
+            console.log(`Database connected: ${dbConfig.port}/${dbConfig.database}`);
         })
     } catch (error) {
         console.error("Error: ", error)
