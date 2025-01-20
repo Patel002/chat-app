@@ -103,7 +103,7 @@ userList li .user-name {
 .chat-box {
     flex-grow: 1;
     padding: 20px;
-    background-image: url("../../public/bg.jpg");
+    background-image: url("/bg.jpg");
     background-size: contain;
     background-color: #e5ddd5;
     display: flex;
