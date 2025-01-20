@@ -10,7 +10,7 @@ const port = 7116;
 app.use(express.json());
 
 app.use(cors({
-  origin: "*",
+  origin: "https://chat-app-orcin-seven.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
