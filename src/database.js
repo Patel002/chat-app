@@ -8,7 +8,6 @@ const dbConfig = {
     database: "chat_app"
 }
 
-
 const database = async() => {
     try {
         const db = mysql.createConnection(dbConfig)

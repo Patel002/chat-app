@@ -1,4 +1,4 @@
-import app from "./app.js"
+import {app, port} from "./app.js"
 import database from "./database.js";
 import http from "http"
 import { initSocket } from "./socket.js";
@@ -12,11 +12,9 @@ initSocket(server)
 
 database()
 .then(() => {
-    // server.listen(port, ()=> {
-    //     console.log(`Server running on port ${port}`)
-    // })
-
-    console.log("server sccessfully running")
+    server.listen(port, ()=> {
+        console.log(`Server running on port ${port}`)
+    })
 })
 .catch((error) => {
     console.log("mysql connection error",error)
@@ -26,3 +24,9 @@ database()
 // console.log("db",database)
 
 export {server} 
+
+
+
+
+
+
