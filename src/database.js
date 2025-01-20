@@ -5,8 +5,7 @@ const dbConfig = {
     host: "localhost",
     user: "root",
     password: "dhtsol",
-    database: "chat_app",
-    port: 3306
+    database: "chat_app"
 }
 
 
@@ -19,7 +18,7 @@ const database = async() => {
                 console.error('Error connecting to MySQL:', err.message);
                 return;
             }
-            console.log(`Database connected: ${dbConfig.port}/${dbConfig.database}`);
+            console.log(`Database connected:${dbConfig.database}`);
         })
     } catch (error) {
         console.error("Error: ", error)

@@ -50,7 +50,7 @@ io.use((socket, next) => {
     io.on('connection', (socket) => {
         console.log('connected', socket.id);
 
-
+        
 socket.on("getUsers", async () => {
     try {
         const connectedUsers = await getConnectedUsers(socket.user.id);
