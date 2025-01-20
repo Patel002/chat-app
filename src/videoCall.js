@@ -1,8 +1,6 @@
-const socket = io(window.location.localhost, {
+const socket = io('https://chatweb-app.vercel.app', {
     auth: { token: localStorage.getItem('token') }
 });
-
-console.log("this is console log:-",window.location.localhost)
 
 const localVideo = document.getElementById('localVideo');
 const remoteVideo = document.getElementById('remoteVideo');
