@@ -1,8 +1,8 @@
-const socket = io(window.location.origin, {
+const socket = io(window.location.localhost, {
     auth: { token: localStorage.getItem('token') }
 });
 
-console.log("this is console log:-",window.location.origin)
+console.log("this is console log:-",window.location.localhost)
 
 const localVideo = document.getElementById('localVideo');
 const remoteVideo = document.getElementById('remoteVideo');
