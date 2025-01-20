@@ -366,7 +366,7 @@ body {
     margin: 0;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 480px) {
     .sidebar {
         min-width: 200px;
         max-width: 250px;
@@ -396,6 +396,10 @@ body {
 }
 
 @media screen and (max-width: 480px) {
+
+    body{
+        font-size: 14px;
+    }
     .sidebar {
         display: none;
     }
