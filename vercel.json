@@ -10,10 +10,18 @@
         "use": "@vercel/static"
       }
     ],
-    "rewrites": [
+    "routes": [
       {
-        "source": "/(.*)",
-        "destination": "/src/frontend/$1"
+        "src": "/api/(.*)",
+        "dest": "src/index.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "src/frontend/$1"
       }
-    ]
-  }
+    ],
+    "static": {
+      "directory": "public",
+      "publicPath": "/"
+    }
+  }  
