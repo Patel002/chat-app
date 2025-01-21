@@ -1,5 +1,4 @@
 import express from "express";
-import path from "path";
 import cors from "cors";
 import userRouter from "./routes/user.routes.js";
 import messageRouter from "./routes/message.routes.js";
@@ -10,7 +9,7 @@ const port = 7116;
 app.use(express.json());
 
 app.use(cors({
-  origin: "https://chat-app-orcin-seven.vercel.app",
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true

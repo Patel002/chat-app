@@ -1,14 +1,14 @@
 import User from "../model/user.model.js";
 import Message from "../model/message.model.js";
 
-const getConnectedUsers = async(loggedInUserId) => {
+const getConnectedUsers = async (loggedInUserId) => {
     try {
         const sendMessages = await Message.findAll({
-            where:{
+            where: {
                 senderId: loggedInUserId
             },
 
-            attributes:[
+            attributes: [
                 'receiverId'
             ],
 
@@ -16,11 +16,11 @@ const getConnectedUsers = async(loggedInUserId) => {
         })
 
         const receiveMessages = await Message.findAll({
-            where:{
+            where: {
                 receiverId: loggedInUserId
             },
 
-            attributes:[
+            attributes: [
                 'senderId'
             ],
 
@@ -35,11 +35,11 @@ const getConnectedUsers = async(loggedInUserId) => {
         ]
 
         const connectedUsers = await User.findAll({
-            where:{
+            where: {
                 id: userId
             },
 
-            attributes:[
+            attributes: [
                 'id',
                 'userName',
             ]
@@ -49,8 +49,8 @@ const getConnectedUsers = async(loggedInUserId) => {
 
     } catch (error) {
         console.error(error);
-        
+
     }
 }
 
-export { getConnectedUsers}
+export { getConnectedUsers }

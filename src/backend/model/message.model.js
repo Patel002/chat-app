@@ -44,7 +44,7 @@ const Message = sequelize.define('message', {
         type: DataTypes.TEXT,
         allowNull: false,
         set(value) {
-            this.setDataValue('content',encryptMessages(value))
+            this.setDataValue('content', encryptMessages(value))
         }
     },
     senderId: {
@@ -63,7 +63,7 @@ const Message = sequelize.define('message', {
             key: 'id'
         }
     }
-},{
+}, {
     timestamps: true,
 })
 
@@ -75,6 +75,7 @@ const Message = sequelize.define('message', {
 // .catch((error) => console.error("Error while creating message table", error))
 
 export default Message
-export { decryptMessages,
+export {
+    decryptMessages,
     encryptMessages
 }

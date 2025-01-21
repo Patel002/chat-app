@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { sendMessage, getAllMessage,deleteMessage } from '../controllers/message.controller.js';
+import { sendMessage, getAllMessage, deleteMessage } from '../controllers/message.controller.js';
 import { verifyJwt } from '../middleware/auth.middleware.js';
 
 const router = Router();
