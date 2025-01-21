@@ -12,10 +12,6 @@
     {
       "src": "src/frontend/js/**/*",
       "use": "@vercel/static"
-    },
-    {
-      "src": "src/frontend/public/**/*",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -28,12 +24,12 @@
       "dest": "/src/frontend/html/chat.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/src/frontend/html/index.html"
-    },
-    {
       "src": "/css/(.*)",
       "dest": "/src/frontend/css/$1"
+    },
+    {
+      "src": "/js/(.*)",
+      "dest": "/src/frontend/js/$1"
     }
   ]
 }
