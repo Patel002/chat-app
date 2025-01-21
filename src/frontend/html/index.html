@@ -48,7 +48,7 @@
             const data = await response.json(); 
             if(response.ok){
                 localStorage.setItem('token',data.token);
-                window.location.href = 'chat.html';
+                window.location.href = '/chat';
             }else{
                 alert(data.message || 'Login Failed Or Insert Correct Data');
             }
