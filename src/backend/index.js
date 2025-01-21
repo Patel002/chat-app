@@ -6,9 +6,11 @@ import dotenv from "dotenv"
 
 const port = process.env.PORT || 7116
 
-dotenv.config({
-    path: './.env'
+const env = dotenv.config({
+    path: "./.env"
 })
+
+// console.log(env)
 
 const server = http.createServer(app)
 

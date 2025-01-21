@@ -5,6 +5,7 @@ const dbConfig = {
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD || "dhtsol",
     database: process.env.DB_NAME || "chat_app",
+    port: process.env.DB_PORT || 3306   
 }
 
 const database = async() => {
