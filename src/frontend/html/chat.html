@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable= flase ">
     <title>Chat</title>
-    <link rel="stylesheet" href="/src/frontend/css/sidebar.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 
 </head>
@@ -138,7 +138,7 @@ handleToggleButton();
     });
 });
 
-        const socket = io(`${process.env.BACKEND_DATA_BASE_URL}`,{
+        const socket = io(`https://chat-app-4dp7.onrender.com`,{
             auth: {
                 token
             }
@@ -284,7 +284,7 @@ async function deleteMessage(messageId) {
     // console.log(messageId);
 
     try {
-        const response = await fetch(`http://localhost:7116/api/v1/chat/delete/${messageId}`, {
+        const response = await fetch(`https://chat-app-4dp7.onrender.com/api/v1/chat/delete/${messageId}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${token}`
