@@ -1,9 +1,14 @@
-import { app, port } from "./app.js"
+import { app } from "./app.js"
 import database from "./database.js";
 import http from "http"
 import { initSocket } from "./socket.js";
+import dotenv from "dotenv"
 
+const port = process.env.PORT || 7116
 
+dotenv.config({
+    path: './.env'
+})
 
 const server = http.createServer(app)
 

@@ -4,7 +4,6 @@ import userRouter from "./routes/user.routes.js";
 import messageRouter from "./routes/message.routes.js";
 import connectedUsersRouter from "./routes/connectedUser.routes.js"
 const app = express();
-const port = 7116;
 
 app.use(express.json());
 
@@ -28,4 +27,4 @@ app.use("/api/v1/all-users", connectedUsersRouter);
 //         console.error('Error recreating table:', error);
 //     });
 
-export { app, port };
+export { app };

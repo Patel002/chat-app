@@ -1,11 +1,10 @@
 import mysql from "mysql2"
 
-
 const dbConfig = {
-    host: "localhost",
-    user: "root",
-    password: "dhtsol",
-    database: "chat_app"
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "dhtsol",
+    database: process.env.DB_NAME || "chat_app",
 }
 
 const database = async() => {
