@@ -177,7 +177,7 @@ body {
 .chat-box {
     flex-grow: 1;
     padding: 20px;
-    background-image: url("/src/public/bg.jpg");
+    background-image: url("/src/frontend/public/bg.jpg");
     background-size: contain;
     background-color: #e5ddd5;
     display: flex;

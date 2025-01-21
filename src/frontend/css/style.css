@@ -48,7 +48,7 @@ button {
     text-transform: uppercase;
     border: none;
     border-radius: 7px;
-    background: linear-gradient(135deg, #075e54, #2263b3);
+    background: linear-gradient(135deg, #158ccb, #195daf);
     cursor: pointer;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
