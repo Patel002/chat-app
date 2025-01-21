@@ -1,6 +1,13 @@
 import { Sequelize } from "sequelize";
 
-const sequelize = new Sequelize('chat_app','root','dhtsol',{host: 'localhost', dialect: 'mysql' ,logging: false})
+const sequelize = new Sequelize(
+    'bppnidd9dftravakxivc',
+    'untlslcyornlvdx1',
+    'IlqALEEfzMSOtxWPwgKW',
+    {
+        host: 'bppnidd9dftravakxivc-mysql.services.clever-cloud.com', dialect: 'mysql' ,logging: false
+    }
+)
 
 
 export {sequelize};
