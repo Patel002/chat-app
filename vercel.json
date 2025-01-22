@@ -41,11 +41,11 @@
     },
     {
       "src": "/voiceCall",
-      "dest": "/frontend/html/voiceCall.html"
+      "dest": "/src/frontend/html/voiceCall.html"
     },
     {
       "src": "/videocall",
-      "dest": "/frontend/html/videocall.html"
+      "dest": "/src/frontend/html/videocall.html"
     }
   ]
 }
