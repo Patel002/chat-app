@@ -46,6 +46,10 @@
     {
       "src": "/videocall",
       "dest": "/src/frontend/html/videocall.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/src/frontend/html/$1"
     }
   ]
 }
