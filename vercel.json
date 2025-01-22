@@ -12,6 +12,10 @@
     {
       "src": "src/frontend/js/**/*",
       "use": "@vercel/static"
+    },
+    {
+      "src": "src/frontend/public/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -30,6 +34,18 @@
     {
       "src": "/js/(.*)",
       "dest": "/src/frontend/js/$1"
+    },
+    {
+      "src": "/public/(.*)",
+      "dest": "/src/frontend/public/$1"
+    },
+    {
+      "src": "/voiceCall",
+      "dest": "/frontend/html/voiceCall.html"
+    },
+    {
+      "src": "/videocall",
+      "dest": "/frontend/html/videocall.html"
     }
   ]
 }

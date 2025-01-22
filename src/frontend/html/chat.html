@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable= flase ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable= no ">
     <title>Chat</title>
     <link rel="stylesheet" href="/css/sidebar.css">
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
@@ -114,7 +114,7 @@ handleToggleButton();
             return;
         }
 
-        window.location.href = `voiceCall.html?userId=${receiverId}`;
+        window.location.href = `/voiceCall.html?userId=${receiverId}`;
   });
         });
 
@@ -134,7 +134,7 @@ handleToggleButton();
             return;
         }
 
-        window.location.href = `videocall.html?userId=${receiverId}`;
+        window.location.href = `/videocall.html?userId=${receiverId}`;
     });
 });
 
