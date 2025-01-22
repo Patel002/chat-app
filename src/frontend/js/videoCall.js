@@ -243,7 +243,7 @@ async function endCall() {
     endCallButton.addEventListener('click', endCall);
 
     window.onbeforeunload = () => {
-        endVoiceCall(); 
+        endCall(); 
     };
 
 startCall()
