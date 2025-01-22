@@ -53,7 +53,7 @@ const loginUser = async (req, res) => {
         const user = await User.findOne({where: {userName}})
         // console.log(user)
         if(!user) {
-            res.status(400).json({
+           return res.status(400).json({
                 message: "User not found",
             })
         }
@@ -61,7 +61,7 @@ const loginUser = async (req, res) => {
         // console.log(isPasswordValid)
 
         if(!isPasswordValid) {
-            res.status(400).json({
+           return res.status(400).json({
                 message: "You are Unauthorized to login"
             })
         }
@@ -74,7 +74,7 @@ const loginUser = async (req, res) => {
         // console.log(token)
         // console.log(user.id)
 
-        res.status(200).json({
+       return res.status(200).json({
             message: "Login successful",
             loginData: user,
             token: token
@@ -82,7 +82,7 @@ const loginUser = async (req, res) => {
         
     } catch (error) {
         console.error("Error while login user", error)
-        res.status(400).json({
+        return res.status(400).json({
             message: "Something went wrong while logging in user",
             error: error.message
         })
@@ -93,7 +93,7 @@ const loginUser = async (req, res) => {
 const getAllRegisterdUsers = async (req, res) => {
 
     const { userId,userName } = req.params
-    let users;
+
 
     if(!userId && !userName) {
         return res.status(400).json({
@@ -116,7 +116,7 @@ const getAllRegisterdUsers = async (req, res) => {
         })
     }
 
-        res.status(200).json({
+       return res.status(200).json({
             message: "user found",
             users: {
                 id: users.id,

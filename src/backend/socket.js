@@ -10,7 +10,7 @@ let users = []
 export const initSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: '*',
+            origin: 'https://chat-app-4dp7.onrender.com',
             methods: ['GET', 'POST', 'PUT', 'DELETE'],
             allowedHeaders: ['Content-Type', 'Authorization'],
         }
