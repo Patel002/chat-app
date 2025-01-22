@@ -88,6 +88,29 @@ const getAllMessage = async (req, res) => {
   }
 };
 
+const updateMessage = async(req, res) => {
+  try{
+    const {messageId} = req.params
+    const {content} = req.body
+
+    const message = await Message.findByPk(messageId)
+    if(!message){
+      return res.status(502).json({
+        message: "Message not found"
+      })
+    }
+    await message.update({content})
+    return res.status(200).json({
+      updatedMessage: message
+    })
+  }catch(error){
+    return res.status(400).json({
+      message: "Error while updating message",
+      error: error.message
+    })
+  }
+}
+
 const deleteMessage = async (req, res) => {
   try {
     const { messageId } = req.params
@@ -116,5 +139,6 @@ const deleteMessage = async (req, res) => {
 export {
   sendMessage,
   getAllMessage,
-  deleteMessage
+  deleteMessage,
+  updateMessage
 }

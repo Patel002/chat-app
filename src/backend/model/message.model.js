@@ -67,7 +67,7 @@ const Message = sequelize.define('message', {
     timestamps: true,
 })
 
-// console.log(decryptMessages('2186a2dad4a5421fde1ce9282e98be43:32456779aeb7fbf59a128bc26e928a9f'))
+// console.log(decryptMessages('ee4ad6664ccbc19b8940a493aab043df:6dbbae50f7c55acf818f5bd6fd96f0ad5b7a319fa47efc7c79e2dea0a0a75bc9db1b5f6d29180b3559391588faf71400d65f697e7c06b6587f8b2c4bb9ca787fb6aa069719a95a49964bd6c0001a11dbdeb53d05abbbe4b74bf1fc051edf8f4fef3ce9c7ceb84b1debd879047954157593560407ac88e3a412eb8d616772fbd5'))
 
 
 // Message.sync({alter: true})

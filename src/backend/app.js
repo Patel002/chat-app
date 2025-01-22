@@ -14,7 +14,6 @@ app.use(cors({
   credentials: true
 }));
 
-
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/chat", messageRouter);
 app.use("/api/v1/all-users", connectedUsersRouter);

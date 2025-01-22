@@ -50,7 +50,6 @@ export const initSocket = (server) => {
     io.on('connection', (socket) => {
         console.log('connected', socket.id);
 
-
         socket.on("getUsers", async () => {
             try {
                 const connectedUsers = await getConnectedUsers(socket.user.id);
@@ -112,6 +111,10 @@ export const initSocket = (server) => {
             const { receiverId } = data;
             const senderId = socket.user.id;
             io.to(receiverId).emit("typing", { senderId });
+        })
+
+        socket.on('updateMessage', ({messageId, updatedContent}) => {
+            io.emit('messageUpdated', { messageId, updatedContent });
         })
 
         socket.on('deleteMessage', ({ messageId, receiverId }) => {
