@@ -325,12 +325,13 @@ body {
 
 .dropdown-button {
     background: transparent;
+    color: rgba(17, 17, 17, 0);
     border: none;
     cursor: pointer;
 }
 
 .dropdown-menu {
-    position: absolute;
+    position: relative;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 5px 0;
