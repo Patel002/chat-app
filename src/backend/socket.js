@@ -11,7 +11,7 @@ export const initSocket = (server) => {
     io = new Server(server, {
         cors: {
             origin: 'https://chat-app-git-main-chill-guys-projects.vercel.app',
-            methods: ['GET', 'POST', 'PUT', 'DELETE'],
+            methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
             allowedHeaders: ['Content-Type', 'Authorization'],
         }
     })

@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.use(cors({
   origin: "https://chat-app-git-main-chill-guys-projects.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE",'PATCH'],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
