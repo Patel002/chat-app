@@ -323,34 +323,36 @@ body {
     transition: background-color 0.3s ease; 
 }
 
-.delete-button {
-    background: none;
+.dropdown-button {
+    background: transparent;
     border: none;
     cursor: pointer;
-    padding: 3px;
 }
 
-.delete-button svg {
-    fill: rgba(237, 236, 236, 0.084);
-    width: 10px;
-    height: 10px;
-    transition: all 0.2s ease;
-}
-
-.delete-button:hover svg {
-    fill: #065249df;
-    
-}
-.deleted-message {
-    color: #888;
-    font-style: italic;
-    text-align: center;
+.dropdown-menu {
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 5px 0;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    margin-top: 10px;
+    margin-top: 5px;
+    display: none;
+    list-style: none;
+    border-radius: 4px;
 }
+
+.dropdown-menu li {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+.message {
+    position: relative;
+}
+
 .chat-header button {
     display: flex;
     align-items: center;
@@ -358,13 +360,18 @@ body {
     background: none;
     border: none;
     padding: 8px;
+    position: relative; 
+    right: 50px; 
     cursor: pointer;
 }
-  
-  .chat-header button svg {
+
+.chat-header button svg {
     display: block;
     margin: 0;
-  }
+    width: 15px;
+    height: 15px;
+}
+
 
   @media screen and (max-width: 480px) {
     .sidebar {
@@ -421,9 +428,10 @@ body {
 }
 
 .sidebar-toggle {
-    position: fixed;
+    position: absolute;
     top: 15px;
-    left: 20px;
+    right:20px;
+    transform: scale(1.2);
     z-index: 1100;
     background: #075e54;
     color: white;
@@ -431,25 +439,35 @@ body {
     border: none;
     border-radius: 35%;
     cursor: pointer;
-    transition: top 0.3s ease, left 0.3s ease, opacity 0.3s ease;
+    transition: all 0.3s ease;
     display: none; 
 }
 
 @media screen and (max-width: 480px) {
     .sidebar-toggle {
-        display: block; 
-        top: 10px;
-        left: 10px;
+        display: block;
     }
+
     .sidebar {
-        display: none; 
+        display: none;
     }
+
     .sidebar.open {
         padding-top: 40px;
         display: block;
     }
-    .container{
-        margin-left: 0;
+
+    .chat-icons {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
     }
 
+    .chat-icons .sidebar-toggle {
+        position: relative;
+    }
+
+    .container {
+        margin-left: 0;
+    }
 }

@@ -36,7 +36,6 @@ const AGORA_APP_ID = '4776f47a8a3e42658542f936e2b2c1a2';
 const AGORA_TOKEN = null;
 const AGORA_CHANNEL = `${Math.min(senderId, receiverId)}_${Math.max(senderId, receiverId)}`;
 
-
 const agoraClient = AgoraRTC.createClient({
     mode: 'rtc',
     codec: 'vp8'
@@ -117,7 +116,6 @@ async function startCall() {
 }
 
 socket.emit('callUser', { to: receiverId, from: senderId });
-
 
 async function subscribeToUser(user, mediaType) {
     try {
@@ -201,15 +199,51 @@ function toggleVideo() {
     }
 }
 
-function endCall() {
-    if (localStream) {
-        localStream.getTracks().forEach(track => track.stop());
+async function endCall() {
+   try {
+
+    if (localTracks.audioTrack) {
+        localTracks.audioTrack.stop();
+        localTracks.audioTrack.close();
+        localTracks.audioTrack = null;
     }
-    socket.emit('endCall', { to: receiverId });
+
+    if (callInProgress) {
+        await agoraClient.leave();
+        callInProgress = false;
+        console.log("Left Agora channel");
+    }
+
     if (socket) {
-        socket.close();
+        socket.emit('endCall', { to: receiverId });
     }
+
     window.location.href = 'chat.html';
+
+   } catch (error) {
+        console.error('Error ending call:', error);
+   }
 }
+
+    socket.on('endCall', () => {
+        if (localTracks.audioTrack) {
+            localTracks.audioTrack.stop();
+            localTracks.audioTrack.close();
+            localTracks.audioTrack = null;
+        }
+
+        if (callInProgress) {
+            agoraClient.leave();
+            callInProgress = false;
+        }
+
+        window.location.href = 'chat.html';
+    })
+
+    endCallButton.addEventListener('click', endVoiceCall);
+
+    window.onbeforeunload = () => {
+        endVoiceCall(); 
+    };
 
 startCall()
