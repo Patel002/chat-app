@@ -325,7 +325,8 @@ body {
 
 .dropdown-button {
     background: transparent;
-    color: rgba(17, 17, 17, 0);
+    color: transparent;
+    opacity: 0;
     border: none;
     cursor: pointer;
 }
@@ -362,7 +363,7 @@ body {
     border: none;
     padding: 8px;
     position: relative; 
-    right: 50px; 
+    right: 45px; 
     cursor: pointer;
 }
 
@@ -429,7 +430,7 @@ body {
 }
 
 .sidebar-toggle {
-    position: absolute;
+    position: fixed;
     top: 15px;
     right:20px;
     transform: scale(1.2);

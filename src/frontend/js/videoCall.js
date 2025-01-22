@@ -240,7 +240,7 @@ async function endCall() {
         window.location.href = 'chat.html';
     })
 
-    endCallButton.addEventListener('click', endVoiceCall);
+    endCallButton.addEventListener('click', endCall);
 
     window.onbeforeunload = () => {
         endVoiceCall(); 
