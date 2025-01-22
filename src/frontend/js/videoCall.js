@@ -1,4 +1,4 @@
-const socket = io('https://chatweb-app.vercel.app', {
+const socket = io('https://chat-app-4dp7.onrender.com', {
     auth: { token: localStorage.getItem('token') }
 });
 
