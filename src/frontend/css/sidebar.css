@@ -328,6 +328,7 @@ body {
     color: transparent;
     opacity: 0;
     border: none;
+    size: 12px;
     cursor: pointer;
 }
 
@@ -349,6 +350,10 @@ body {
 
 .dropdown-menu li:hover {
     background-color: #f0f0f0;
+}
+
+.dropdown-button:hover{
+    color: #075E54;
 }
 
 .message {
