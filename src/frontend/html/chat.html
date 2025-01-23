@@ -424,13 +424,20 @@ async function deleteMessage(messageId) {
             dropdownMenu.style.display = isMenuVisible ? 'none' : 'block';
         });
 
+            document.addEventListener('click', (e) => {
+            if (!messageDiv.contains(e.target)) {
+                dropdownMenu.style.display = 'none';
+                }
+            });
+
             const updateOption = dropdownMenu.querySelector('.update-option');
+
             updateOption.addEventListener('click', () => {
             dropdownMenu.style.display = 'none';
             enableInlineEdit(message.id, messageDiv);
                 });
 
-                const deletaeOption = dropdownMenu.querySelector('.delete-option');
+                const deleteOption = dropdownMenu.querySelector('.delete-option');
                 deleteOption.addEventListener('click', () => {
                     dropdownMenu.style.display = 'none';
                     deleteMessage(message.id);
