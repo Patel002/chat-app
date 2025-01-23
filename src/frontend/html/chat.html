@@ -298,19 +298,19 @@ async function updateMessage(messageId,updatedContent) {
     }
 }
 
-// function updatedMassage(messageId,updatedContent){
-//     const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
-//     if (messageDiv) {
-//         const messageText = messageDiv.querySelector('.message-text');
-//         if (messageText) {
-//             messageText.textContent = updatedContent;
-//         } else {
-//             console.error(`Message text span not found for message ID: ${messageId}`);
-//         }
-//     } else {
-//         console.error(`Message div not found for message ID: ${messageId}`);
-//     }
-// }
+function updatedMassage(messageId,updatedContent){
+    const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
+    if (messageDiv) {
+        const messageText = messageDiv.querySelector('.message-text');
+        if (messageText) {
+            messageText.textContent = updatedContent;
+        } else {
+            console.error(`Message text span not found for message ID: ${messageId}`);
+        }
+    } else {
+        console.error(`Message div not found for message ID: ${messageId}`);
+    }
+}
 async function deleteMessage(messageId) {
     // console.log(messageId);
 
@@ -433,8 +433,8 @@ async function deleteMessage(messageId) {
             const updateOption = dropdownMenu.querySelector('.update-option');
 
             updateOption.addEventListener('click', () => {
-                    dropdownMenu.style.display = 'none';
-                    enableInlineEdit(message.id, messageText);
+            dropdownMenu.style.display = 'none';
+            enableInlineEdit(message.id, messageDiv);
                 });
 
                 const deleteOption = dropdownMenu.querySelector('.delete-option');
@@ -459,32 +459,24 @@ async function deleteMessage(messageId) {
         }
     }
 
-    function enableInlineEdit(messageId, messageText) {
+    function enableInlineEdit(messageId,messageDiv) {
 
-        const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
-        if (!messageDiv) {
-        console.warn(`Message div not found for message ID: ${messageId}`);
-        return;
-    }
-
-    let messageText = messageDiv.querySelector('.message-text');
-    if (!messageText) {
-        console.warn(`Message text span not found for message ID: ${messageId}`);
-        return;
-    }
+        const messageTextElement = messageDiv.querySelector('.message-text'); 
+        
         const inputField = document.createElement('input');
         inputField.type = 'text';
-        inputField.value = messageText.textContent;
+        inputField.value = messageTextElement.textContent;
         inputField.className = 'message-input';
-        messageText.replaceWith(inputField);
+        messageDiv.replaceChild(inputField, messageTextElement);
+
 
         inputField.focus();
 
 
         const saveChanges = () => {
             const updateContent = inputField.value;
-            inputField.replaceWith(messageText);
-            messageText.textContent = updateContent;
+            messageTextElement.textContent = updatedContent;
+            messageDiv.replaceChild(messageTextElement, inputField);
             updateMessage(messageId, updateContent);
         }
 
