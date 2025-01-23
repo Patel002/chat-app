@@ -281,7 +281,9 @@ async function updateMessage(messageId,updatedContent) {
             body: JSON.stringify({content: updatedContent})
         })
 
-        const data = await respone.json();
+        console.log(response)
+        const data = await response.json();
+        console.log(data)
         if(respone.ok){
             contentUpdated(messageId,updatedContent);
 
