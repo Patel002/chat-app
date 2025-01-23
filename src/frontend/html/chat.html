@@ -467,7 +467,7 @@ async function deleteMessage(messageId) {
         return;
     }
 
-    const messageText = messageDiv.querySelector('.message-text');
+    let messageText = messageDiv.querySelector('.message-text');
     if (!messageText) {
         console.warn(`Message text span not found for message ID: ${messageId}`);
         return;
