@@ -285,7 +285,7 @@ async function updateMessage(messageId,updatedContent) {
         const data = await response.json();
         console.log(data)
         if(response.ok){
-            updatedMassage(messageId,updatedContent);
+            enableInlineEdit(messageId,updatedContent);
         }
         else{
             console.log("something wrong while updating message",data.error)
@@ -424,20 +424,13 @@ async function deleteMessage(messageId) {
             dropdownMenu.style.display = isMenuVisible ? 'none' : 'block';
         });
 
-            document.addEventListener('click', (e) => {
-            if (!messageDiv.contains(e.target)) {
-                dropdownMenu.style.display = 'none';
-                }
-            });
-
             const updateOption = dropdownMenu.querySelector('.update-option');
-
             updateOption.addEventListener('click', () => {
             dropdownMenu.style.display = 'none';
-            enableInlineEdit(message.id, messageDiv);
+            updateMessage(message.id, messageDiv);
                 });
 
-                const deleteOption = dropdownMenu.querySelector('.delete-option');
+                const deletaeOption = dropdownMenu.querySelector('.delete-option');
                 deleteOption.addEventListener('click', () => {
                     dropdownMenu.style.display = 'none';
                     deleteMessage(message.id);
