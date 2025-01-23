@@ -382,6 +382,7 @@ async function deleteMessage(messageId) {
                     const messageDiv = document.createElement('div');
                     messageDiv.setAttribute('data-message-id', message.id);
                     const messageTime = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                    messageText.className = 'message-text1'
 
                     messageDiv.textContent = message.senderId === senderId ? ` ${message.content}` : ` ${message.content}`;
                     messageDiv.className = message.senderId === senderId ? 'send' : 'received';
@@ -389,6 +390,8 @@ async function deleteMessage(messageId) {
             const timeSpan = document.createElement('span');
             timeSpan.textContent = messageTime;
             timeSpan.className = 'timestamp';
+
+            messageDiv.appendChild(messageText);
             messageDiv.appendChild(timeSpan);
             
             
