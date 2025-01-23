@@ -285,7 +285,7 @@ async function updateMessage(messageId,updatedContent) {
         const data = await response.json();
         console.log(data)
         if(response.ok){
-            enableInlineEdit(messageId,updatedContent);
+            updatedMassage(messageId,updatedContent);
         }
         else{
             console.log("something wrong while updating message",data.error)
@@ -427,7 +427,7 @@ async function deleteMessage(messageId) {
             const updateOption = dropdownMenu.querySelector('.update-option');
             updateOption.addEventListener('click', () => {
             dropdownMenu.style.display = 'none';
-            updateMessage(message.id, messageDiv);
+            enableInlineEdit(message.id, messageDiv);
                 });
 
                 const deletaeOption = dropdownMenu.querySelector('.delete-option');
