@@ -284,9 +284,8 @@ async function updateMessage(messageId,updatedContent) {
         console.log(response)
         const data = await response.json();
         console.log(data)
-        if(respone.ok){
+        if(response.ok){
             contentUpdated(messageId,updatedContent);
-
         }
         else{
             console.log("something wrong while updating message",data.error)
@@ -305,7 +304,6 @@ function updatedMassage(messageId,updatedContent){
         messageDiv.textContent = updatedContent;
     }
 }
-
 async function deleteMessage(messageId) {
     // console.log(messageId);
 
