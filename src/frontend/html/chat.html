@@ -475,6 +475,7 @@ async function deleteMessage(messageId) {
 
         const saveChanges = () => {
             const updateContent = inputField.value;
+            const messageTextElement = messageDiv.querySelector('.message-text');
             messageTextElement.textContent = updatedContent;
             messageDiv.replaceChild(messageTextElement, inputField);
             updateMessage(messageId, updateContent);
