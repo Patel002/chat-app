@@ -298,19 +298,19 @@ async function updateMessage(messageId,updatedContent) {
     }
 }
 
-function updatedMassage(messageId,updatedContent){
-    const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
-    if (messageDiv) {
-        const messageText = messageDiv.querySelector('.message-text');
-        if (messageText) {
-            messageText.textContent = updatedContent;
-        } else {
-            console.error(`Message text span not found for message ID: ${messageId}`);
-        }
-    } else {
-        console.error(`Message div not found for message ID: ${messageId}`);
-    }
-}
+// function updatedMassage(messageId,updatedContent){
+//     const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
+//     if (messageDiv) {
+//         const messageText = messageDiv.querySelector('.message-text');
+//         if (messageText) {
+//             messageText.textContent = updatedContent;
+//         } else {
+//             console.error(`Message text span not found for message ID: ${messageId}`);
+//         }
+//     } else {
+//         console.error(`Message div not found for message ID: ${messageId}`);
+//     }
+// }
 async function deleteMessage(messageId) {
     // console.log(messageId);
 
@@ -460,6 +460,18 @@ async function deleteMessage(messageId) {
     }
 
     function enableInlineEdit(messageId, messageText) {
+
+        const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
+        if (!messageDiv) {
+        console.warn(`Message div not found for message ID: ${messageId}`);
+        return;
+    }
+
+    const messageText = messageDiv.querySelector('.message-text');
+    if (!messageText) {
+        console.warn(`Message text span not found for message ID: ${messageId}`);
+        return;
+    }
         const inputField = document.createElement('input');
         inputField.type = 'text';
         inputField.value = messageText.textContent;
