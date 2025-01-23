@@ -460,9 +460,9 @@ async function deleteMessage(messageId) {
     }
 
     function enableInlineEdit(messageId,messageDiv) {
-
+       console.log('messageDiv:',messageDiv)
         const messageTextElement = messageDiv.querySelector('.message-text'); 
-        
+        if (messageTextElement){
         const inputField = document.createElement('input');
         inputField.type = 'text';
         inputField.value = messageTextElement.textContent;
@@ -487,7 +487,10 @@ async function deleteMessage(messageId) {
                 saveChanges();
             }
         });
+    }else {
+        console.error("Message text element not found for inline edit.");
     }
+}
 
     sendMessageBtn.addEventListener('click', () => {
         // console.log('Send message clicked');
