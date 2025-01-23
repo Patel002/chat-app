@@ -281,11 +281,11 @@ async function updateMessage(messageId,updatedContent) {
             body: JSON.stringify({content: updatedContent})
         })
 
-        console.log(response)
+        // console.log(response)
         const data = await response.json();
         console.log(data)
         if(response.ok){
-            contentUpdated(messageId,updatedContent);
+            updatedMassage(messageId,updatedContent);
         }
         else{
             console.log("something wrong while updating message",data.error)
@@ -301,7 +301,14 @@ async function updateMessage(messageId,updatedContent) {
 function updatedMassage(messageId,updatedContent){
     const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
     if (messageDiv) {
-        messageDiv.textContent = updatedContent;
+        const messageText = messageDiv.querySelector('.message-text');
+        if (messageText) {
+            messageText.textContent = updatedContent;
+        } else {
+            console.error(`Message text span not found for message ID: ${messageId}`);
+        }
+    } else {
+        console.error(`Message div not found for message ID: ${messageId}`);
     }
 }
 async function deleteMessage(messageId) {
@@ -384,7 +391,7 @@ async function deleteMessage(messageId) {
             timeSpan.className = 'timestamp';
             messageDiv.appendChild(timeSpan);
             
-       
+            
             // const deleteButton = document.createElement('button');
             // deleteButton.className = 'delete-button'; 
             // deleteButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
@@ -397,7 +404,7 @@ async function deleteMessage(messageId) {
             const dropdownButton = document.createElement('button');
             dropdownButton.className = 'dropdown-button'; 
             dropdownButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
-            <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
+            // <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
             </svg>`;
 
             messageDiv.appendChild(dropdownButton);
@@ -424,23 +431,21 @@ async function deleteMessage(messageId) {
             });
 
             const updateOption = dropdownMenu.querySelector('.update-option');
-            const deleteOption = dropdownMenu.querySelector('.delete-option');
 
             updateOption.addEventListener('click', () => {
-                updateMessage(message.id);
-                dropdownMenu.style.display = 'none';
-            });
+                    dropdownMenu.style.display = 'none';
+                    enableInlineEdit(message.id, messageText);
+                });
 
-            deleteOption.addEventListener('click', () => {
-            deleteMessage(message.id);
-            dropdownMenu.style.display = 'none';
-        });
-
+                const deleteOption = dropdownMenu.querySelector('.delete-option');
+                deleteOption.addEventListener('click', () => {
+                    dropdownMenu.style.display = 'none';
+                    deleteMessage(message.id);
+                });
 
         chatMessages.appendChild(messageDiv);
     });
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-             offset += limit;
+     chatMessages.scrollTop = chatMessages.scrollHeight;             offset += limit;
             }
             else{
                 const notmessageDiv = document.createElement('div');    
@@ -452,6 +457,31 @@ async function deleteMessage(messageId) {
         } catch (error) {
             console.error('Error fetching messages:', error);
         }
+    }
+
+    function enableInlineEdit(messageId, messageText) {
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.value = messageText.textContent;
+        inputField.className = 'message-input';
+        messageText.replaceWith(inputField);
+
+        inputField.focus();
+
+
+        const saveChanges = () => {
+            const updateContent = inputField.value;
+            inputField.replaceWith(messageText);
+            messageText.textContent = updateContent;
+            updateMessage(messageId, updateContent);
+        }
+
+        inputField.addEventListener('blur', saveChanges);
+        inputField.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                saveChanges();
+            }
+        });
     }
 
     sendMessageBtn.addEventListener('click', () => {
