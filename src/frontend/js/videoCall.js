@@ -65,8 +65,8 @@ async function startCall() {
                 encoderConfig: {
                     resolution: '1280x720',
                     frameRate: 30,
-                    bitrateMin: 1000,
-                    bitrateMax: 1500,
+                    bitrateMin: 1500,
+                    bitrateMax: 2500,
                 },
                facingMode: 'user'
             })
@@ -144,9 +144,6 @@ async function subscribeToUser(user, mediaType) {
         console.error(`Failed to subscribe to user ${user.uid}:`, error);
     }
 }
-
-switchCameraButton.addEventListener('click', switchCamera);
-
 async function switchCamera(){
     if (!localTracks.videoTrack) {
         console.error("Video track not available");
@@ -157,7 +154,7 @@ async function switchCamera(){
         const devices = await AgoraRTC.getDevices();
         const videoDevices = devices.filter(device => device.kind === 'videoinput');
 
-        if (videoDevices.length <= 1) {
+        if (videoDevices.length < 2) {
             console.warn("No second camera found.");
             return;
         }
@@ -185,12 +182,13 @@ async function switchCamera(){
 
         console.log(`switched camera to ${newFacingMode}`);
 
-        // socket.emit('cameraSwitched', { to: receiverId, from: senderId });
+        socket.emit('cameraSwitched', { to: receiverId, from: senderId });
 
     } catch (error) {
         console.error('Error switching camera:', error);
     }
 }
+switchCameraButton.addEventListener('click', switchCamera);
 
 socket.on('cameraSwitched', ({ data }) => {
     const { from } = data;
