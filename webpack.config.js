@@ -4,7 +4,7 @@ export default {
   entry: './emoji-button-bundle.js',
   output: {
     filename: 'emoji-button.bundle.js', 
-    path: path.resolve('public','js'),  
+    path: path.resolve(__dirname,'public','js'),  
   },
   module: {
     rules: [
