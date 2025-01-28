@@ -9,9 +9,7 @@
 </head>
 <body>
     <button class="sidebar-toggle" aria-label="Toggle Sidebar">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="white" width="15" height="15"  viewBox="0 0 15 15" >
-            <path d="M3 6h18c.552 0 1-.448 1-1s-.448-1-1-1H3c-.552 0-1 .448-1 1s.448 1 1    1zm0 5h18c.552 0 1-.448 1-1s-.448-1-1-1H3c-.552 0-1 .448-1 1s.448 1 1 1zm0 5h18c.552 0 1-.448 1-1s-.448-1-1-1H3c-.552 0-1 .448-1 1s.448 1 1 1z"/>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" width="16" height="16"><path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>
     </button>
     <div class="sidebar">
         <h2>Chat</h2>
@@ -19,7 +17,6 @@
         <ul id="searchResult"></ul>
         <ul id="userList"></ul>
     </div>
-    
     <div class="container">
       <div class="chat-header">
         <h2 id="receiverName"></h2> 
@@ -30,7 +27,6 @@
               <path d="M13.25 21.59c2.88 5.66 7.51 10.29 13.18 13.17l4.4-4.41c.55-.55 1.34-.71 2.03-.49C35.1 30.6 37.51 31 40 31c1.11 0 2 .89 2 2v7c0 1.11-.89 2-2 2C21.22 42 6 26.78 6 8c0-1.11.9-2 2-2h7c1.11 0 2 .89 2 2 0 2.49.4 4.9 1.14 7.14.22.69.06 1.48-.49 2.03l-4.4 4.42z"/>
             </svg>
           </button>
-    
           
           <button class="videoCall" aria-label="Video Call" style="background: none; border: none; padding: 8px; cursor: pointer;">
             <svg xmlns="http://www.w3.org/2000/svg" fill="white" width="18" height="18" viewBox="0 0 576 512">
@@ -39,9 +35,9 @@
         </button>
       </div>
     </div>
-
         <div id="chatMessages" class="chat-box"></div>
         <div class="chat-input">
+            <button id="emoji-btn" class="emoji-btn" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="18" width="18" fill="#5D6166"><path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm177.6 62.1C192.8 334.5 218.8 352 256 352s63.2-17.5 78.4-33.9c9-9.7 24.2-10.4 33.9-1.4s10.4 24.2 1.4 33.9c-22 23.8-60 49.4-113.6 49.4s-91.7-25.5-113.6-49.4c-9-9.7-8.4-24.9 1.4-33.9s24.9-8.4 33.9 1.4zM144.4 208a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm192-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg></button>
             <input type="text" id="messageInput" placeholder="Type a message">
             <button id="sendMessageBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
@@ -50,15 +46,51 @@
             </button>
         </div>
     </div>
+    <script src="/public/js/emoji-button.bundle.js"></script>
+    <script src="/public/js/emoji-button.bundle.js" type="module"></script>
+
     <script>
+        const picker = new EmojiButton({
+            theme: 'auto',
+            autoHide: false,
+            position: 'bottom-start',
+            emojiSize: '25px',
+            showPreview: false,
+            emojiVersion:'12.1'
+
+        });
+        const button = document.getElementById('emoji-btn');
+        const inputField = document.getElementById('messageInput');
+
+        button.addEventListener('click', () => {
+            picker.togglePicker(button); 
+        });
+
+    picker.on('emoji', (emojiObject) => {
+        emojiObject = emojiObject.emoji;
+        inputField.value += emojiObject; 
+    });
 
 const sidebar = document.querySelector('.sidebar');
 const toggleButton = document.querySelector('.sidebar-toggle');
+const icon = document.querySelector('.chat-header button ');
+const icon1 = document.querySelector('.chat-header button.videoCall');
+const chatHeader = document.getElementById('.chat-header h2');
 
 function handleToggleButton() {
     if (window.innerWidth <= 480) {
         toggleButton.addEventListener('click', () => {
             sidebar.classList.toggle('open');
+            if (sidebar.classList.contains('open')) {
+                icon.style.display = 'none'; 
+            } else {
+                icon.style.display = 'block'; 
+            }
+            if (sidebar.classList.contains('open')) {
+                icon1.style.display = 'none'; 
+            } else {
+                icon1.style.display = 'block'; 
+            }
         });
     }
 }
@@ -93,8 +125,8 @@ handleToggleButton();
         document.addEventListener('DOMContentLoaded', () => {
         const voiceCallButton = document.querySelector('.voiceCall');
         const token = localStorage.getItem('token');
-    
-     voiceCallButton.addEventListener('click', () => {
+     
+      voiceCallButton.addEventListener('click', () => {
         if (!token) {
             alert('You must be logged in to make a voice call.');
             window.location.href = 'index.html';
@@ -126,7 +158,7 @@ handleToggleButton();
             return;
         }
 
-        window.location.href = `/videocall.html?userId=${receiverId}`;
+        window.location.href = `../html/videocall.html?userId=${receiverId}`;
     });
 });
 
@@ -144,7 +176,7 @@ handleToggleButton();
     let receiverId = null;
     const unreadMessage = {};
 
-    function resetUserCount(userName){
+function resetUserCount(userName){
         const userItem = Array.from(userList.children).find((item) => item.textContent.includes(userName));
         if(userItem){
             userItem.style.fontWeight = 'normal';
@@ -196,6 +228,9 @@ function resetTimestamp(userName) {
                     receiverId = users.id;
                     receiverName.textContent = `${users.userName}`;
                     loadMessages(receiverId);
+                    
+                    addUserToSidebar(users);
+
                     searchResult.innerHTML = '';
                     resetUserCount(users.userName)
                     currentReceiver = users.userName
@@ -214,6 +249,38 @@ function resetTimestamp(userName) {
         searchResult.innerHTML = '';
     }
     })
+
+    function addUserToSidebar(user) {
+    const existingUser = Array.from(userList.children).find(item => item.getAttribute('data-user-id') === String(user.id));
+
+    if (!existingUser) {
+        const userItem = document.createElement('li');
+        userItem.textContent = `${user.userName}`;
+        userItem.classList.add('user-item');
+        userItem.setAttribute('data-user-id', user.id);
+
+        
+        const unreadCount = document.createElement('span');
+        unreadCount.classList.add('unread-count');
+        unreadCount.textContent = 0; 
+
+        const timestamp = document.createElement('span');
+        timestamp.classList.add('timestamp');
+        timestamp.textContent = 'Just Now'; 
+
+        userItem.appendChild(unreadCount);
+        userItem.appendChild(timestamp);
+
+        userItem.addEventListener('click', () => {
+            receiverId = user.id;
+            currentReceiver = user.userName;
+            receiverName.textContent = `${user.userName}`;
+            loadMessages(receiverId);
+        });
+
+        userList.appendChild(userItem); 
+    }
+}
 
     const users = []
 
@@ -270,50 +337,58 @@ function resetTimestamp(userName) {
 
 // const username = localStorage.getItem('senderName');
 
-async function updateMessage(messageId,updatedContent) {
-    try {
-        const response = await fetch(`https://chat-app-4dp7.onrender.com/api/v1/chat/update/${messageId}`,{
-            method: 'PATCH',
-            headers: {
-                Authorization: `Bearer ${token}`,
-               'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({content: updatedContent})
-        })
+    async function updateMessage(messageId,updatedContent) {
+        try {
+            const response = await fetch(`https://chat-app-4dp7.onrender.com/api/v1/chat/update/${messageId}`,{
+                method: 'PATCH',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({content: updatedContent})
+            })
 
-        // console.log(response)
-        const data = await response.json();
-        console.log(data)
-        if(response.ok){
-            updatedMassage(messageId,updatedContent);
+            // console.log(response)
+            const data = await response.json();
+            // console.log(data)
+            if(response.ok){
+                updatedMessage(messageId,updatedContent);
+                socket.emit('updateMessage', { messageId, updatedContent });
+            }
+            else{
+                console.log("something wrong while updating message",data.error)
+            }
+            // loadMessages(receiverId);
+
+        } catch (error) {
+            console.error("something wrong while updating message",error)
         }
-        else{
-            console.log("something wrong while updating message",data.error)
-        }
-
-        socket.emit('updateMessage', { messageId, updatedContent });
-
-    } catch (error) {
-        console.error("something wrong while updating message",error)
     }
-}
 
-function updatedMassage(messageId,updatedContent){
+    socket.on('messageUpdated', ({ messageId, updatedContent }) => {
     const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
     if (messageDiv) {
-        const messageText = messageDiv.querySelector('.message-text');
-        if (messageText) {
-            messageText.textContent = updatedContent;
-        } else {
-            console.error(`Message text span not found for message ID: ${messageId}`);
-        }
+        messageDiv.textContent = updatedContent;
+        console.log(`Message updated: ${messageId}`);
     } else {
-        console.error(`Message div not found for message ID: ${messageId}`);
+        console.error(`Message with ID ${messageId} not found.`);
     }
-}
-async function deleteMessage(messageId) {
-    // console.log(messageId);
-
+});
+    function updatedMessage(messageId,updatedContent){
+        const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
+        if (messageDiv) {
+            const messageText = messageDiv.querySelector('.message-text');
+            if (messageText) {
+                messageText.textContent = updatedContent;
+            } else {
+                console.error(`Message text span not found for message ID: ${messageId}`);
+            }
+        } else {
+            console.error(`Message div not found for message ID: ${messageId}`);
+        }
+    }
+async function deleteMessage(messageId,receiverId) {
+    
     try {
         const response = await fetch(`https://chat-app-4dp7.onrender.com/api/v1/chat/delete/${messageId}`, {
             method: 'DELETE',
@@ -321,20 +396,16 @@ async function deleteMessage(messageId) {
                 Authorization: `Bearer ${token}`
             }
         });
-        // console.log(response)
+        const data = await response.json();
+        const senderId = data.message.senderId
 
         if (!response.ok) {
             throw new Error('Failed to delete the message');
         }
-
-        const result = await response.json();
-
-        if (result.message === 'Message deleted successfully') {
             removeMessage(messageId);
-            socket.emit('deleteMessage', { messageId, receiverId });
-        }
-    
-        loadMessages(receiverId);
+            socket.emit('deleteMessage', { messageId, senderId, receiverId });
+            console.log('Emitting messageDeleted to sender and receiver:', messageId,receiverId);
+
         
     } catch (error) {
         console.error('Error deleting message:', error);
@@ -342,26 +413,26 @@ async function deleteMessage(messageId) {
        }   
     }
 
-    socket.on('messageDeleted', ({ messageId }) => {
-    console.log('Received messageDeleted event for messageId:', messageId);
-    const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
-    if (messageDiv) {
-        // messageDiv.textContent = 'This message was deleted';
-        messageDiv.classList.add('deleted-message');
-    }
+    
+socket.on('messageDeleted', ({ messageId }) => {
+    console.log('messageDeleted event received with messageId:', messageId);
+    removeMessage(messageId);
 });
 
-    function removeMessage(messageId) {
-        const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
+
+
+function removeMessage(messageId) {
+    const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
     if (messageDiv) {
-        messageDiv.textContent = 'This Message was deleted';
+        messageDiv.textContent = 'This message was deleted';
         messageDiv.classList.add('deleted-message');
+    } else {
+        console.error(`Message with ID ${messageId} not found.`);
     }
 }
 
     async function loadMessages(receiverId,offset = 0,limit = 10000) {
         try {
-
             const response = await fetch(`https://chat-app-4dp7.onrender.com/api/v1/chat/${senderId}/${receiverId}?offset=${offset}&limit=${limit}`,{
                 method: 'GET',
                 headers: {
@@ -382,7 +453,8 @@ async function deleteMessage(messageId) {
                     const messageDiv = document.createElement('div');
                     messageDiv.setAttribute('data-message-id', message.id);
                     const messageTime = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-                    messageText.className = 'message-text1'
+                    const messageText = document.createElement('span');
+                    messageText.className = 'message-text'
 
                     messageDiv.textContent = message.senderId === senderId ? ` ${message.content}` : ` ${message.content}`;
                     messageDiv.className = message.senderId === senderId ? 'send' : 'received';
@@ -394,29 +466,21 @@ async function deleteMessage(messageId) {
             messageDiv.appendChild(messageText);
             messageDiv.appendChild(timeSpan);
             
-            
-            // const deleteButton = document.createElement('button');
-            // deleteButton.className = 'delete-button'; 
-            // deleteButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
-            // <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
-            // </svg>`;
-            // deleteButton.addEventListener('click', () => deleteMessage(message.id));
-            // messageDiv.appendChild(deleteButton);
-
-
             const dropdownButton = document.createElement('button');
             dropdownButton.className = 'dropdown-button'; 
-            dropdownButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16">
+            dropdownButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="10" height="10" >
             // <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
             </svg>`;
 
             messageDiv.appendChild(dropdownButton);
+        
 
             const dropdownMenu = document.createElement('ul');
             dropdownMenu.className = 'dropdown-menu';
             dropdownMenu.innerHTML = `
-            <li class="update-option">Update</li>
-            <li class="delete-option">Delete</li>`;
+            <li class="update-option"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width = "14" height="14"><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"/></svg>  Edit</li>
+
+            <li class="delete-option"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width = "14" height="14"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z"/></svg>   Delete</li>`;
 
             dropdownMenu.style.display = 'none';
             messageDiv.appendChild(dropdownMenu);
@@ -440,16 +504,17 @@ async function deleteMessage(messageId) {
             enableInlineEdit(message.id, messageDiv);
                 });
 
-                const deleteOption = dropdownMenu.querySelector('.delete-option');
-                deleteOption.addEventListener('click', () => {
-                    dropdownMenu.style.display = 'none';
-                    deleteMessage(message.id);
-                });
+            const deleteOption = dropdownMenu.querySelector('.delete-option');
+            deleteOption.addEventListener('click', () => {
+                dropdownMenu.style.display = 'none';
+                deleteMessage(message.id,receiverId);
 
-        chatMessages.appendChild(messageDiv);
+            });
+
+            chatMessages.appendChild(messageDiv);
     });
-     chatMessages.scrollTop = chatMessages.scrollHeight;             offset += limit;
-            }
+        chatMessages.scrollTop = chatMessages.scrollHeight;             offset += limit;
+                }
             else{
                 const notmessageDiv = document.createElement('div');    
                 notmessageDiv.textContent = 'No messages yet';
@@ -465,34 +530,52 @@ async function deleteMessage(messageId) {
     function enableInlineEdit(messageId,messageDiv) {
        console.log('messageDiv:',messageDiv)
         const messageTextElement = messageDiv.querySelector('.message-text'); 
-        if (messageTextElement){
+      
+        if (!messageTextElement){
+            console.error("Message is not found");
+            return;
+        }
         const inputField = document.createElement('input');
         inputField.type = 'text';
         inputField.value = messageTextElement.textContent;
         inputField.className = 'message-input';
-        messageDiv.replaceChild(inputField, messageTextElement);
 
-
+        messageTextElement.style.display = 'none';
+        messageDiv.appendChild(inputField);
+        
         inputField.focus();
 
-
         const saveChanges = () => {
-            const updateContent = inputField.value;
-            const messageTextElement = messageDiv.querySelector('.message-text');
-            messageTextElement.textContent = updatedContent;
-            messageDiv.replaceChild(messageTextElement, inputField);
-            updateMessage(messageId, updateContent);
+            const updateContent = inputField.value.trim();
+          
+            if(updateContent && updateContent !== messageTextElement.textContent){
+                messageTextElement.textContent = updateContent; 
+                updateMessage(messageId,updateContent);
+            }
+            cleanup();
+        }
+
+        const cancelEdit = () =>{
+            cleanup();
+        }
+        const cleanup = () => {
+            inputField.removeEventListener('blur', saveChanges);
+            inputField.removeEventListener('keydown',handleKeydown);
+
+            messageDiv.removeChild(inputField);
+            messageTextElement.style.display = '';
+        }
+
+        const handleKeydown = (e) => {
+            if (e.key === 'Enter') {
+                saveChanges();
+            } else if (e.key === 'Escape') {
+                cancelEdit();
+            }
         }
 
         inputField.addEventListener('blur', saveChanges);
-        inputField.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                saveChanges();
-            }
-        });
-    }else {
-        console.error("Message text element not found for inline edit.");
-    }
+        inputField.addEventListener('keydown', handleKeydown);
 }
 
     sendMessageBtn.addEventListener('click', () => {
