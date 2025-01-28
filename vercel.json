@@ -14,24 +14,18 @@
       "use": "@vercel/static"
     },
     {
-      "src": "src/frontend/public/*",
+      "src": "src/frontend/public/**/*",
       "use": "@vercel/static"
     },
     {
-   "src": "webpack.config.js",
+      "src": "webpack.config.js",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
+      }
     }
-  }
-
-
   ],
   "routes": [
-    {
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
-    },
     {
       "src": "/",
       "dest": "/src/frontend/html/index.html"
@@ -39,6 +33,14 @@
     {
       "src": "/chat",
       "dest": "/src/frontend/html/chat.html"
+    },
+    {
+      "src": "/voiceCall",
+      "dest": "/src/frontend/html/voiceCall.html"
+    },
+    {
+      "src": "/videocall",
+      "dest": "/src/frontend/html/videocall.html"
     },
     {
       "src": "/css/(.*)",
@@ -53,19 +55,12 @@
       "dest": "/src/frontend/public/$1"
     },
     {
-      "src": "/voiceCall",
-      "dest": "/src/frontend/html/voiceCall.html"
-    },
-    {
-      "src": "/videocall",
-      "dest": "/src/frontend/html/videocall.html"
+      "src": "/dist/(.*)",
+      "dest": "/dist/$1"
     },
     {
       "src": "/(.*)",
       "dest": "/src/frontend/html/$1"
-    },
-    {"src": "/(.*)",
-      "dest": "/dist/$1"
     }
   ]
 }
