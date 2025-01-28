@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/video.css">
+    <link rel="stylesheet" href="../css/video.css">
 </head>
 <body>
     <div id="videoCallContainer">
@@ -12,12 +12,15 @@
         <video id="localVideo" autoplay playsinline muted></video>
 
       <div id="controls">
+        <button id="startCallButton">Start Call</button>
+        <button id="acceptCallButton" style="display: none;">Accept Call</button>
         <button id="muteButton" class="control-btn" onclick="toggleMute()"><i class="fa-solid fa-microphone-slash"></i></button>
-        <button id="endCallButton" class="control-btn" onclick="endCall()"><i class="fas fa-phone-alt"></i></button>
-        <button id="videoToggleButton" class="control-btn" onclick="toggleVideo()">  <i class="fas fa-video"></i></button>
+        <button id="endCallButton" class="control-btn"><i class="fas fa-phone  "></i></button>
+        <button id="videoToggleButton" class="control-btn" onclick="toggleVideo()"><i class="fas fa-video"></i></button>
+        <button id="switchCameraButton" class="control-btn" ><i class="fas fa-camera"></i></button>
     </div>
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script src="https://cdn.agora.io/sdk/release/AgoraRTC_N.js"></script>
-    <script src="/src/frontend/js/videoCall.js"></script>
+    <script src="../js/videoCall.js"></script>
 </body>
 </html>
