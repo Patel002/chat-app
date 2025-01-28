@@ -16,13 +16,6 @@
     {
       "src": "src/frontend/public/**/*",
       "use": "@vercel/static"
-    },
-    {
-      "src": "webpack.config.js",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "public"
-      }
     }
   ],
   "routes": [
