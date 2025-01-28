@@ -39,6 +39,7 @@ body {
 }
 #searchResult {
     cursor: default;
+    list-style: none;
 }
 
 #userList li {
@@ -72,7 +73,6 @@ userList li .user-name {
 #userList li:hover{
     background-color: #f5f5f5;
 }
-
 
 .container {
     display: flex;
@@ -167,7 +167,7 @@ body {
 .chat-header h2 {
     font-size: 18px;
     font-weight: 600;
-}
+    }
 
 .chat-header .status {
     font-size: 12px;
@@ -234,17 +234,30 @@ body {
     outline: none;
 } 
 
-
-.chat-input button svg {
+.chat-input #sendMessageBtn svg {
     width: 16px;
     height: 16px;
     fill: white;
     transition: fill 0.3 ease;
 }
 
-.chat-input button:hover svg {
+.chat-input #sendMessageBtn:hover svg {
     fill: #075E54;
     transform: scale(1.35); 
+}
+
+.chat-input button.emoji-btn {
+    padding: 10px 10px;
+    margin: 2px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background-color: #faf7f7; 
+}
+
+.chat-input button.emoji-btn:hover{
+    background-color: #e5e6e8;
+    opacity: 0.8;
 }
 
 .notmessage {
@@ -287,16 +300,6 @@ body {
     margin-left: 10px;
 }
 
-.user-list-item .unread-count {
-    font-size: 0.85em;
-    background-color: #ff5722;
-    color: white;
-    border-radius: 50%;
-    padding: 2px 6px;
-    margin-left: 5px;
-    font-weight: bold;
-}
-
 .user-item {
     display: flex;
     justify-content: space-between;
@@ -310,50 +313,46 @@ body {
     background-color: #f0f0f0;
 }
 
-
 .unread-count {
     color: white;
-    padding: 5px 10px;
+    padding: 3px 5.5px;
     border-radius: 50%;
-    font-size: 14px;
+    font-size: 8px;
     font-weight: bold;
     display: inline-block;
-    min-width: 20px;
-    text-align: center;
+    text-align: middle;
     transition: background-color 0.3s ease; 
 }
 
 .dropdown-button {
-    background: transparent;
-    color: transparent;
-    opacity: 0;
+    fill: none;
     border: none;
-    size: 12px;
     cursor: pointer;
-}
+    background: none;
 
+}
+.dropdown-button:hover{
+    fill: #9c9898;
+}
 .dropdown-menu {
-    position: relative;
+    position:relative;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 5px 0;
-    margin-top: 5px;
+    padding: 5px 0px;
+    margin-bottom: 8px;
     display: none;
     list-style: none;
-    border-radius: 4px;
+    border-radius: 5px;
+    transition: all 0.4s ease-in;
 }
 
 .dropdown-menu li {
-    padding: 8px 16px;
+    padding: 8px 14px;
     cursor: pointer;
 }
 
 .dropdown-menu li:hover {
-    background-color: #f0f0f0;
-}
-
-.dropdown-button:hover{
-    color: #075E54;
+    background-color: #dadcdb49;
 }
 
 .message {
@@ -368,7 +367,7 @@ body {
     border: none;
     padding: 8px;
     position: relative; 
-    right: 45px; 
+    right: 30px; 
     cursor: pointer;
 }
 
@@ -378,7 +377,6 @@ body {
     width: 15px;
     height: 15px;
 }
-
 
   @media screen and (max-width: 480px) {
     .sidebar {
@@ -435,16 +433,16 @@ body {
 }
 
 .sidebar-toggle {
-    position: fixed;
+    position: absolute;
     top: 15px;
-    right:20px;
+    right:15px;
     transform: scale(1.2);
     z-index: 1100;
-    background: #075e54;
-    color: white;
+    background: none;
+    fill: white;
     padding: 3px;
     border: none;
-    border-radius: 35%;
+    border-radius: none;
     cursor: pointer;
     transition: all 0.3s ease;
     display: none; 
@@ -460,8 +458,7 @@ body {
     }
 
     .sidebar.open {
-        padding-top: 40px;
-        display: block;
+        display: flex;
     }
 
     .chat-icons {
@@ -476,5 +473,8 @@ body {
 
     .container {
         margin-left: 0;
+    }
+    .chat-header{
+       padding-bottom: 25px;
     }
 }
