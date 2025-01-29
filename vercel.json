@@ -2,11 +2,32 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "public"
-      }
+      "src": "src/frontend/html/**/*",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "src/frontend/css/**/*",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "src/frontend/js/**/*",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "src/frontend/public/*",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "emoji-button-bundle.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "webpack.config.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -19,14 +40,6 @@
       "dest": "/src/frontend/html/chat.html"
     },
     {
-      "src": "/voiceCall",
-      "dest": "/src/frontend/html/voiceCall.html"
-    },
-    {
-      "src": "/videocall",
-      "dest": "/src/frontend/html/videocall.html"
-    },
-    {
       "src": "/css/(.*)",
       "dest": "/src/frontend/css/$1"
     },
@@ -37,6 +50,14 @@
     {
       "src": "/public/(.*)",
       "dest": "/src/frontend/public/$1"
+    },
+    {
+      "src": "/voiceCall",
+      "dest": "/src/frontend/html/voiceCall.html"
+    },
+    {
+      "src": "/videocall",
+      "dest": "/src/frontend/html/videocall.html"
     },
     {
       "src": "/public/(.*)",
