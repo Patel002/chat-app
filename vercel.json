@@ -2,20 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/frontend/html/**/*",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "src/frontend/css/**/*",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "src/frontend/js/**/*",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "src/frontend/public/**/*",
-      "use": "@vercel/static"
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "public"
+      }
     }
   ],
   "routes": [
