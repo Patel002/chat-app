@@ -1,4 +1,5 @@
 const socket = io('https://chat-app-4dp7.onrender.com', {
+    transports: ['websocket'],  
     auth: { token: localStorage.getItem('token') }
 });
 
@@ -64,9 +65,9 @@ async function startCall() {
             AgoraRTC.createCameraVideoTrack({
                 encoderConfig: {
                     resolution: '1280x720',
-                    frameRate: 30,
-                    bitrateMin: 1500,
-                    bitrateMax: 2500,
+                    frameRate: 15,
+                    bitrateMin: 1000,
+                    bitrateMax: 1500,
                 },
                facingMode: 'user'
             })
@@ -144,6 +145,8 @@ async function subscribeToUser(user, mediaType) {
         console.error(`Failed to subscribe to user ${user.uid}:`, error);
     }
 }
+
+let currentCameraDeviceId = null;
 async function switchCamera(){
     if (!localTracks.videoTrack) {
         console.error("Video track not available");
@@ -159,10 +162,19 @@ async function switchCamera(){
             return;
         }
 
-        const currentDevice = videoDevices.find(device => device.deviceId === currentCameraDeviceId);
-
+        if (!currentCameraDeviceId) {
+            currentCameraDeviceId = videoDevices[0].deviceId;
+        }
         const nextDevice = videoDevices.find(device => device.deviceId !== currentCameraDeviceId) || videoDevices[0];
 
+        if (!nextDevice) {
+            console.warn("No alternative camera found.");
+            return;
+        }
+
+        console.log(`Switching to camera: ${nextDevice.label}`);
+
+        await agoraClient.unpublish([localTracks.videoTrack]);
         localTracks.videoTrack.stop();
         localTracks.videoTrack.close();
 
@@ -197,29 +209,53 @@ socket.on('cameraSwitched', ({ data }) => {
     document.body.appendChild(messageDiv);
 })
 
-// let callTimeOut;    
+// let callTimeOut; 
+// let ringtone; 
+
+// if (Notification.permission === "default") {
+//     Notification.requestPermission().then(permission => {
+//         console.log("Notification permission:", permission);
+//     });
+// }
 
 // acceptCallButton.style.display = 'none';
 // acceptCallButton.addEventListener('click', () => {
-//     ringtone.pause();
-//     ringtone.currentTime = 0;
+//     if (ringtone) {
+//         ringtone.pause();
+//         ringtone.currentTime = 0;
+//     }
 //     clearTimeout(callTimeOut);
 //     startCall();
 // });
 
+// from = senderId;
+// to = receiverId;
+
+// console.log('from:', from);
+// console.log('to:', to);
+
 // socket.on('callStarted', ({ from }) => {
 //     console.log(`Call started from ${from}`);
+    
 
 //     if (Notification.permission === 'granted') {
-//         new Notification('Incoming video call', {
-//             body: `User ${from} is calling you`,
-//             icon: '../publiv/bg.jpg'
-//         });
+//         try {
+//             const notification = new Notification('Incoming video call', {
+//                 body: `User ${from} is calling you`,
+//                 icon: '../public/bg.jpg'
+//             });
+//             console.log(notification, "this is notification");
+//         } catch (error) {
+//             console.error("Notification failed:", error);
+//         }
+//     } else {
+//         alert(`Incoming call from User ${from}`); // Fallback alert
 //     }
 
-//     ringtone = new Audio('.../public/ringtone.mp3');
+//     ringtone = new Audio('../public/ringtone.mp3');
 //     ringtone.loop = true;
-//     ringtone.play();
+//     ringtone.play().catch(error => console.error("Error playing ringtone:", error));
+
 //     console.log('Ringtone playing',ringtone.paly());
 
 //     callTimeOut = setTimeout(() => {
