@@ -149,23 +149,23 @@ handleToggleButton();
         const videoCallButton = document.querySelector('.videoCall');
         const token = localStorage.getItem('token');
                   
-    videoCallButton.addEventListener('click', () => {
+    videoCallButton.addEventListener('click', (event) => {
+        event.defaultPrevented();
+        
         if (!token) {
             alert('You must be logged in to make a video call.');
             window.location.href = 'index.html';
             return;
         }
-        
+    
         if (!receiverId) {
             alert('Please select a user to initiate a video call.');
             return;
         }
 
         window.location.href = `/videocall.html?userId=${receiverId}`;
-        event.preventDefault();
     });
 });
-
         const socket = io(`https://chat-app-4dp7.onrender.com`,{
             auth: {
                 token
