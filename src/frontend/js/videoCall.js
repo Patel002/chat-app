@@ -174,28 +174,28 @@ async function switchCamera(){
 
         console.log(`Switching to camera: ${nextDevice.label}`);
 
-        localTracks.videoTrack.stop();
-        localTracks.videoTrack.close();
+        // await agoraClient.unpublish([localTracks.videoTrack]);
+        // localTracks.videoTrack.stop();
+        // localTracks.videoTrack.close();
 
-        localTracks.videoTrack = AgoraRTC.createCameraVideoTrack({
-            encoderConfig: {
-                resolution: '1280x720', 
-                frameRate: 30, 
-                bitrateMin: 1000, 
-                bitrateMax: 1500, 
-            },
-            cameraId: nextDevice.deviceId 
-        });
+        // localTracks.videoTrack = AgoraRTC.createCameraVideoTrack({
+        //     encoderConfig: {
+        //         resolution: '1280x720', 
+        //         frameRate: 30, 
+        //         bitrateMin: 1000, 
+        //         bitrateMax: 1500, 
+        //     },
+        //     cameraId: nextDevice.deviceId 
+        // });
 
-        // await localTracks.videoTrack.setDevice(nextDevice.deviceId);
+        await localTracks.videoTrack.setDevice(nextDevice.deviceId);
+
 
         currentCameraDeviceId = nextDevice.deviceId;
-        localTracks.videoTrack.play('localVideo');
+        // localTracks.videoTrack.play('localVideo');
+        // await agoraClient.publish([localTracks.videoTrack]);
 
-        await agoraClient.unpublish([localTracks.videoTrack]);
-        await agoraClient.publish([localTracks.videoTrack]);
-
-        socket.emit('cameraSwitched', { to: receiverId, from: senderId });
+        socket.emit('cameraSwitched', { from: senderId, to: receiverId });
 
     } catch (error) {
         console.error('Error switching camera:', error);
@@ -203,7 +203,7 @@ async function switchCamera(){
 }
 switchCameraButton.addEventListener('click', switchCamera);
 
-socket.on('cameraSwitched', ({ data }) => {
+socket.on('cameraSwitched', async ({ data }) => {
     const { from } = data;
     const messageDiv = document.createElement('div');
     messageDiv.textContent = `${from} switched camera`;
