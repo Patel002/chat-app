@@ -1,4 +1,4 @@
-const socket = io('https://chat-app-4dp7.onrender.com', {
+const socket = io('http://localhost:7116', {
     transports: ['websocket'],  
     auth: { token: localStorage.getItem('token') }
 });
@@ -174,25 +174,25 @@ async function switchCamera(){
 
         console.log(`Switching to camera: ${nextDevice.label}`);
 
-        await agoraClient.unpublish([localTracks.videoTrack]);
-        localTracks.videoTrack.stop();
-        localTracks.videoTrack.close();
+        // await agoraClient.unpublish([localTracks.videoTrack]);
+        // localTracks.videoTrack.stop();
+        // localTracks.videoTrack.close();
 
-        localTracks.videoTrack = AgoraRTC.createCameraVideoTrack({
-            encoderConfig: {
-                resolution: '1280x720', 
-                frameRate: 30, 
-                bitrateMin: 1000, 
-                bitrateMax: 1500, 
-            },
-            cameraId: nextDevice.deviceId 
-        });
+        // localTracks.videoTrack = AgoraRTC.createCameraVideoTrack({
+        //     encoderConfig: {
+        //         resolution: '1280x720', 
+        //         frameRate: 30, 
+        //         bitrateMin: 1000, 
+        //         bitrateMax: 1500, 
+        //     },
+        //     cameraId: nextDevice.deviceId 
+        // });
+
+        await localTracks.videoTrack.setDevice(nextDevice.deviceId);
 
         currentCameraDeviceId = nextDevice.deviceId;
-        localTracks.videoTrack.play('localVideo');
-        await agoraClient.publish([localTracks.videoTrack]);
-
-        console.log(`switched camera to ${newFacingMode}`);
+        // localTracks.videoTrack.play('localVideo');
+        // await agoraClient.publish([localTracks.videoTrack]);
 
         socket.emit('cameraSwitched', { to: receiverId, from: senderId });
 
