@@ -69,7 +69,6 @@ async function startCall() {
                     bitrateMax: 1500,
                 },
                facingMode: 'user',
-               facingMode: 'environment'
             })
         ]);
 
