@@ -62,14 +62,9 @@ async function startCall() {
             }),
 
             AgoraRTC.createCameraVideoTrack({
-                encoderConfig: {
-                    resolution: '1280x720',
-                    frameRate: 15,
-                    bitrateMin: 1000,
-                    bitrateMax: 1500,
-                },
-               facingMode: 'user',
-               optimizationMode: "detail"
+                encoderConfig: "720p_15",
+                facingMode: 'user',
+                optimizationMode: "detail"
             })
         ]);
 
