@@ -176,6 +176,7 @@ async function switchCamera(){
         // currentCameraDeviceId = nextDevice.deviceId;
         // socket.emit('cameraSwitched', { from: senderId, to: receiverId });
 
+        await agoraClient.unpublish([localTracks.videoTrack]);
         await localTracks.videoTrack.stop();
         localTracks.videoTrack.close();
 
@@ -187,11 +188,10 @@ async function switchCamera(){
 
         localTracks.videoTrack.play('localVideo');
 
-        await agoraClient.unpublish([localTracks.videoTrack]);
         await agoraClient.publish([localTracks.videoTrack]);
 
         console.log(`Switched camera to ${nextDevice.label}`);
-
+        socket.emit("cameraSwitched", { userId: senderId });
 
     } catch (error) {
         console.error('Error switching camera:', error);
