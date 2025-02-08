@@ -64,7 +64,6 @@ async function startCall() {
             AgoraRTC.createCameraVideoTrack({
                 encoderConfig: "720p_15",
                 facingMode: 'user',
-                optimizationMode: "detail"
             })
         ]);
 
