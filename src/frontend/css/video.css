@@ -33,6 +33,7 @@ body {
   height: calc(100% - 90px); 
   object-fit: cover;
   background-color: #444;
+  transform:  scaleX(1);
 }
 
 #localVideo {

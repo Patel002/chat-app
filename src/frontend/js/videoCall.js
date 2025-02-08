@@ -1,4 +1,4 @@
-const socket = io('http://localhost:7116', {
+const socket = io('https://chat-app-4dp7.onrender.com', {
     transports: ['websocket'],  
     auth: { token: localStorage.getItem('token') }
 });
@@ -24,7 +24,7 @@ let localTracks = {
 
 let remoteUsers = {};
 let isMuted = true;
-let isVideoEnabled = true
+let isVideoEnabled = true;
 let callInProgress = false;
 
 const token = localStorage.getItem('token');
@@ -34,7 +34,6 @@ console.log('senderId:', senderId);
 
 const urlParams = new URLSearchParams(window.location.search);
 let receiverId = urlParams.get('userId');
-// localStorage.setItem('userId', senderId);
 
 
 const AGORA_APP_ID = '4776f47a8a3e42658542f936e2b2c1a2';   
@@ -69,7 +68,8 @@ async function startCall() {
                     bitrateMin: 1000,
                     bitrateMax: 1500,
                 },
-               facingMode: 'user'
+               facingMode: 'user',
+               facingMode: 'environment'
             })
         ]);
 
@@ -102,7 +102,6 @@ async function startCall() {
         //     await subscribeToUser(user, 'video');
         //     await subscribeToUser(user, 'audio');
         // });
-        
         
         const existingUsers = agoraClient.remoteUsers;
 
@@ -173,29 +172,27 @@ async function switchCamera(){
         }
 
         console.log(`Switching to camera: ${nextDevice.label}`);
+        // await localTracks.videoTrack.setDevice(nextDevice.deviceId);
 
-        // await agoraClient.unpublish([localTracks.videoTrack]);
-        // localTracks.videoTrack.stop();
-        // localTracks.videoTrack.close();
+        // currentCameraDeviceId = nextDevice.deviceId;
+        // socket.emit('cameraSwitched', { from: senderId, to: receiverId });
 
-        // localTracks.videoTrack = AgoraRTC.createCameraVideoTrack({
-        //     encoderConfig: {
-        //         resolution: '1280x720', 
-        //         frameRate: 30, 
-        //         bitrateMin: 1000, 
-        //         bitrateMax: 1500, 
-        //     },
-        //     cameraId: nextDevice.deviceId 
-        // });
+        await localTracks.videoTrack.stop();
+        localTracks.videoTrack.close();
 
-        await localTracks.videoTrack.setDevice(nextDevice.deviceId);
-
+        localTracks.videoTrack = await AgoraRTC.createCameraVideoTrack({
+            cameraId: nextDevice.deviceId
+        });
 
         currentCameraDeviceId = nextDevice.deviceId;
-        // localTracks.videoTrack.play('localVideo');
-        // await agoraClient.publish([localTracks.videoTrack]);
 
-        socket.emit('cameraSwitched', { from: senderId, to: receiverId });
+        localTracks.videoTrack.play('localVideo');
+
+        await agoraClient.unpublish([localTracks.videoTrack]);
+        await agoraClient.publish([localTracks.videoTrack]);
+
+        console.log(`Switched camera to ${nextDevice.label}`);
+
 
     } catch (error) {
         console.error('Error switching camera:', error);
