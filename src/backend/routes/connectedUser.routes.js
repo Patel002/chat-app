@@ -1,4 +1,3 @@
-import { Socket } from "socket.io";
 import { getConnectedUsers } from "../controllers/userService.controller.js";
 import { verifyJwt } from "../middleware/auth.middleware.js";
 import { Router } from "express";
@@ -16,6 +15,5 @@ router.route("/").get(verifyJwt, async (req, res) => {
 
         }
 })
-
 
 export default router;

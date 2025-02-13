@@ -1,43 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../utils/sequelize.js";
-import crypto from "crypto";
-
-
-const algorithm = 'aes-256-cbc';
-const key = Buffer.from('de568fc97a511aea9bc27b068c50a3b81ad4773114c176b78995c266c8bea098', 'hex');
-
-// const ivString = '2bf2b0dc434d9781f29c9c85c941046e'; 
-const iv = crypto.randomBytes(16);
-const encryptMessages = (content) => {
-    const cipher = crypto.createCipheriv(algorithm, key, iv);
-    let encrypted = cipher.update(content, 'utf-8', 'hex');
-    encrypted += cipher.final('hex');
-    const encryptedMessage = `${iv.toString('hex')}:${encrypted}`;
-    return (encryptedMessage)
-}
-
-const decryptMessages = (encryptedMessages) => {
-    try {
-        if (encryptedMessages.includes(':')) {
-            const [ivHex, encrypted] = encryptedMessages.split(':');
-            if (!ivHex || !encrypted) {
-                throw new Error("Invalid encrypted encryptedMessages format");
-            }
-            const iv = Buffer.from(ivHex, 'hex');
-            const decipher = crypto.createDecipheriv(algorithm, key, iv);
-            const decryptedBuffer = Buffer.concat([
-                decipher.update(Buffer.from(encrypted, 'hex')),
-                decipher.final()
-            ]);
-            return decryptedBuffer.toString('utf-8');
-        } else {
-            return encryptedMessages;
-        }
-    } catch (error) {
-        console.error("Decryption failed:", error.message);
-        throw new Error("Decryption error");
-    }
-};
+import { encryptMessages,decryptMessages} from  "../utils/crypto.js";
 
 const Message = sequelize.define('message', {
     content: {
@@ -67,7 +30,7 @@ const Message = sequelize.define('message', {
     timestamps: true,
 })
 
-// console.log(decryptMessages('ee4ad6664ccbc19b8940a493aab043df:6dbbae50f7c55acf818f5bd6fd96f0ad5b7a319fa47efc7c79e2dea0a0a75bc9db1b5f6d29180b3559391588faf71400d65f697e7c06b6587f8b2c4bb9ca787fb6aa069719a95a49964bd6c0001a11dbdeb53d05abbbe4b74bf1fc051edf8f4fef3ce9c7ceb84b1debd879047954157593560407ac88e3a412eb8d616772fbd5'))
+// console.log(decryptMessages('e2ec9e7b19be11905c802f4de4a67fc1:7c576dc305f7e8d5f5579e730c104362090da75a0a64c0d5fe667aaa4043ba953df361e9f1b0b684071ee75ce4f054ca3afde1942c9a9a7d3de08ab3933add2f8f2262445f90519491f9c44d2acb83327e328d64421ddc5fc0a745ca87771d6d3bf13e9af243453a838b459f01c63a58a11586d9d517ccb579341ed8e20d8d7c58150508a4d2f11a5f45b06ff39fd5e8'))
 
 
 // Message.sync({alter: true})

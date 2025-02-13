@@ -5,13 +5,12 @@ import db from './utils/associat.js';
 import { decryptMessages } from './model/message.model.js';
 
 let io;
-let users = []
+let users = [];
 
 export const initSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: 'https://chat-app-git-main-chill-guys-projects.vercel.app',
-            methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
+            origin: 'https://chat-app-git-main-chill-guys-projects.vercel.app',            methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
             allowedHeaders: ['Content-Type', 'Authorization'],
         }
     })
@@ -42,7 +41,6 @@ export const initSocket = (server) => {
             next();
 
         } catch (error) {
-            // console.log('Error while authenticating user', error);
             return next(new Error('Authentication error'));
         }
     })
@@ -105,33 +103,49 @@ export const initSocket = (server) => {
             } catch (error) {
                 console.error(error);
             }
-        })
-
-        socket.on("typing...", (data) => {
-            const { receiverId } = data;
-            const senderId = socket.user.id;
-            io.to(receiverId).emit("typing", { senderId });
+            // console.log("Receiver ID:", userId);
         })
 
         socket.on('updateMessage', ({messageId, updatedContent}) => {
             io.emit('messageUpdated', { messageId, updatedContent });
         })
-
-        socket.on('deleteMessage', ({ messageId, receiverId }) => {
-            io.to(receiverId).emit('messageDeleted', messageId);
-            socket.emit('messageDeleted', { messageId });
+        
+        socket.on('deleteMessage', ({ messageId, senderId, receiverId }) => {
+            
+            io.to(senderId).emit('messageDeleted', { messageId });
+            io.to(receiverId).emit('messageDeleted', { messageId });
+            console.log('messageDeleted event emitted to both sender and receiver');
         })
+        
+        socket.on('cameraSwitched',({to, from}) =>{
+            if(!to || !from) return
+            io.to(to).emit('cameraSwitched', { from });
+        })
+        
+        socket.on('callStarted', ({ to, from }) => {
+            console.log(`[Incoming] callStarted: from ${from} to ${to}`);
+            socket.emit('callStarted', { from });
+            console.log(`[Outgoing] callStarted: to ${to}`);
+        });
 
+        socket.on('callDeclined', ({ to }) => {
+            console.log(`[Server] callDeclined: to ${to}`);
+            io.to(to).emit('callDeclined'); 
+        });
+        
         socket.on('videoCallOffer', ({ offer, to, from }) => {
+            if(!offer || !to || !from) return
             io.to(to).emit('videoCallOffer', { offer, from });
         });
 
         socket.on('videoCallAnswer', ({ answer, to, from }) => {
+            if(!answer || !to || !from) return
             io.to(to).emit('videoCallAnswer', { answer, from });
         });
 
         socket.on('endCall', ({ to }) => {
             io.to(to).emit('endCall');
+            io.to(from).emit('endCall');
             socket.disconnect(true)
         });
 
@@ -145,5 +159,3 @@ export const initSocket = (server) => {
     return io;
 }
 export const getSocketInstance = () => io;
-
-

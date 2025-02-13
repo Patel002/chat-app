@@ -2,12 +2,11 @@ import Message from "../model/message.model.js";
 import jwt from "jsonwebtoken"
 import { Op } from "sequelize";
 import db from "../utils/associat.js";
-import { decryptMessages } from "../model/message.model.js";
+import { decryptMessages } from "../utils/crypto.js"
 const sendMessage = async (req, res) => {
   try {
 
     const { reciverId, content } = req.body
-
 
     const token = req.headers.authorization.split('')[1]
     const decoded = jwt.verify(token, "somegebrrishwordintextformat")
