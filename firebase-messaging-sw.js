@@ -22,7 +22,7 @@ messaging.onBackgroundMessage((payload) => {
         return;
     }
     const channel = new BroadcastChannel("fcm_notifications");
-    channel.postMessage(payload.data);
+    channel.postMessage(payload.notification);
 
 });
 
