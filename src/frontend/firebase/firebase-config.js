@@ -82,7 +82,7 @@ channel.addEventListener("message", (event) => {
 
 async function sendNotification(message, receiverId) {
     try {
-        const receiversTokenResponse = await fetch(`http://localhost:7116/api/v1/fcm-token/get-fcm-token/${receiverId}`);
+        const receiversTokenResponse = await fetch(`https://chat-app-4dp7.onrender.com/api/v1/fcm-token/get-fcm-token/${receiverId}`);
         const receiverTokenData = await receiversTokenResponse.json();
 
         console.log("Fetched Receiver's Token Data:", receiverTokenData);
@@ -98,7 +98,7 @@ async function sendNotification(message, receiverId) {
         console.log("Receiver ID:", receiverId);
         console.log("FCM Token:", fcmToken);
 
-        const response = await fetch('http://localhost:7116/api/v1/notification/notify', {
+        const response = await fetch('https://chat-app-4dp7.onrender.com/api/v1/notification/notify', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
