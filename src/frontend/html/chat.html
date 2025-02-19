@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable= no">
     <title>Chat</title>
+
     <link rel="stylesheet" href="../css/sidebar.css">
+
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
-
-
+     
 </head>
-<body>
-    
+<body>    
     <button class="sidebar-toggle" aria-label="Toggle Sidebar">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" width="16" height="16"><path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>
     </button>
     <div class="sidebar">
+        <!-- <button><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512", height="18", width="18", fill="#5D6166"><path d="M224 0c-17.7 0-32 14.3-32 32l0 19.2C119 66 64 130.6 64 208l0 25.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416l400 0c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4l0-25.4c0-77.4-55-142-128-156.8L256 32c0-17.7-14.3-32-32-32zm0 96c61.9 0 112 50.1 112 112l0 25.4c0 47.9 13.9 94.6 39.7 134.6L72.3 368C98.1 328 112 281.3 112 233.4l0-25.4c0-61.9 50.1-112 112-112zm64 352l-64 0-64 0c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/></svg></button> -->
         <h2>Chat</h2>
        <input type="search" id="searchInput" placeholder="Search or start new chat">
         <ul id="searchResult"></ul>
@@ -53,12 +54,21 @@
 
     <script type="module">
 
-        const picker = new EmojiButton({
+  import{ sendNotification, requestFcmTokenPermission } from "../firebase/firebase-config.js";
+
+  document.addEventListener("DOMContentLoaded", async () => {
+        const token = await requestFcmTokenPermission();
+        if (!token) {
+            console.log("FCM Token request failed.");
+        }
+    });
+    
+    const picker = new EmojiButton({
             theme: 'auto',
             autoHide: false,
             position: 'bottom-start',
             emojiSize: '25px',
-            showPreview: false,
+            // showPreview: false,
             emojiVersion:'12.1'
 
         });
@@ -102,7 +112,7 @@ window.addEventListener('resize', () => {
 
     if (window.innerWidth <= 480) {
         handleToggleButton();
-        toggleButton.style.display = 'block'; 
+      toggleButton.style.display = 'block'; 
     } else {
         toggleButton.removeEventListener('click', () => {
             sidebar.classList.toggle('open');
@@ -163,7 +173,7 @@ handleToggleButton();
             return;
         }
 
-        window.location.href = `/videocall.html?userId=${receiverId}`;
+        window.location.href = `./videocall.html?userId=${receiverId}`;
     });
 });
         const socket = io(`https://chat-app-4dp7.onrender.com`,{
@@ -424,7 +434,6 @@ socket.on('messageDeleted', ({ messageId }) => {
 });
 
 
-
 function removeMessage(messageId) {
     const messageDiv = document.querySelector(`[data-message-id="${messageId}"]`);
     if (messageDiv) {
@@ -517,7 +526,8 @@ function removeMessage(messageId) {
 
             chatMessages.appendChild(messageDiv);
     });
-        chatMessages.scrollTop = chatMessages.scrollHeight;             offset += limit;
+        chatMessages.scrollTop = chatMessages.scrollHeight;             
+        offset += limit;
                 }
             else{
                 const notmessageDiv = document.createElement('div');    
@@ -582,6 +592,21 @@ function removeMessage(messageId) {
         inputField.addEventListener('keydown', handleKeydown);
 }
 
+
+// let isChatActive = null;
+
+// function isChatOpen(receiverId) {
+//     isChatActive = receiverId;
+// }
+
+// function onNotChatOpen(){
+//     isChatActive = null;
+// }
+
+// window.addEventListener("beforeunload", () => {
+//     onNotChatOpen();
+// });
+
     sendMessageBtn.addEventListener('click', async () => {
         const content = messageInput.value;
       
@@ -591,6 +616,8 @@ function removeMessage(messageId) {
                 receiverId,
                 createdAt: new Date().toISOString()
             });
+
+            await sendNotification(content, receiverId);
 
             const messageDiv = document.createElement('div');
             messageDiv.textContent = content;
@@ -624,7 +651,6 @@ function removeMessage(messageId) {
         }
     });
 
-
     socket.on('receiveMessage', (message) => {
         const currentTime = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',hour12: false });
   
@@ -643,7 +669,6 @@ function removeMessage(messageId) {
                 userItem.querySelector('.unread-count').style.backgroundColor = '#53c66cb2';
                 const timestamp = userItem.querySelector('.timestamp');
                 if (timestamp) timestamp.textContent = currentTime
-                
             }
             return;
         }

@@ -27,8 +27,10 @@
                 </form>
             </div>
     </div>
-    <script>
+    <script type="module">
         
+        import {requestFcmTokenPermission} from "../firebase/firebase-config.js";
+
         const registerForm = document.getElementById('RegisterForm');
         const loginForm = document.getElementById('LoginForm');
 
@@ -45,9 +47,27 @@
                 body: JSON.stringify({userName: username,password})
             })
 
-            const data = await response.json(); 
+            const data = await response.json();
+            console.log(data) 
+
             if(response.ok){
                 localStorage.setItem('token',data.token);
+
+                const fcmToken = await requestFcmTokenPermission();
+            
+                if (fcmToken) {
+                    console.log("FCM Token:", fcmToken);
+                    const response = await fetch("https://chat-app-4dp7.onrender.com/api/v1/fcm-token/store-fcm-token", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ userId: data.loginData.id, fcmToken
+                         })
+                    });
+                    const result = await response.json();
+                    console.log("respones",result);
+                    localStorage.setItem('result', JSON.stringify(result));
+                }
+
                 window.location.href = '/chat';
             }else{
                 alert(data.message || 'Login Failed Or Insert Correct Data');
