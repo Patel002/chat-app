@@ -14,21 +14,45 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
+// messaging.onBackgroundMessage((payload) => {
+//     console.log("[firebase-sw] Background Message received:", JSON.stringify(payload, null, 2));
+
+//     if(!payload.data) {
+//         console.warn("No notification payload received.");
+//         return;
+//     }
+
+//     const { title, body } = payload.data;
+//     const notificationOptions = {
+//         body: body,
+//         title: title,
+//     };
+//     const channel = new BroadcastChannel("fcm_notifications");
+//     channel.postMessage({
+//         notification: notificationOptions
+//     });
+// });
+
+// self.addEventListener("notificationclick", (event) => {
+//     event.notification.close();
+//     event.waitUntil(clients.openWindow("/chat"));
+// });
+
+
 messaging.onBackgroundMessage((payload) => {
     console.log("[firebase-sw] Background Message received:", JSON.stringify(payload, null, 2));
 
-    if(!payload.data) {
+    if (!payload.data) {
         console.warn("No notification payload received.");
         return;
     }
-    const channel = new BroadcastChannel("fcm_notifications");
-    channel.postMessage({
-        title: payload.data.title,
-        body: payload.data.body
-    });
-});
 
-self.addEventListener("notificationclick", (event) => {
-    event.notification.close();
-    event.waitUntil(clients.openWindow("/chat"));
+    const { title, body } = payload.data;
+    const notificationOptions = {
+        body: body,
+        icon: "/src/frontend/public/notify.bmp", 
+        vibrate: [200, 100, 200]
+    };
+
+    self.registration.showNotification(title, notificationOptions);
 });
