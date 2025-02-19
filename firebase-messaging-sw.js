@@ -1,5 +1,3 @@
-const { Json } = require("sequelize/lib/utils");
-
 importScripts("https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/11.2.0/firebase-messaging-compat.js");
 
@@ -17,7 +15,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-    console.log("[firebase-sw] Background Message received:",Json.stringify(payload));
+    console.log("[firebase-sw] Background Message received:",Json.stringify(payload, null, 2));
 
     if(!payload.data) {
         console.warn("No notification payload received.");
@@ -25,15 +23,6 @@ messaging.onBackgroundMessage((payload) => {
     }
     const channel = new BroadcastChannel("fcm_notifications");
     channel.postMessage(payload.data);
-
-    const notificationTitle = payload.notification.title || "New Message";
-    
-    const notificationOptions = {
-        body: payload.notification.body || "You have a new message!",
-        icon: payload.notification.icon || "/notify.bmp",
-        vibrate: [200, 100, 200]
-    };
-    self.registration.showNotification(notificationTitle, notificationOptions);
 
 });
 
