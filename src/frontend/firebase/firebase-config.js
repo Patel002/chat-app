@@ -70,12 +70,12 @@ channel.addEventListener("message", (event) => {
 
     const notificationOptions = {
         body: body,
-        icon: "../public/notify.png",
+        icon: "/public/notify.png",
     };
 
     new Notification(title, notificationOptions);
 
-    const audio = new Audio("../public/ringtone.mp3");
+    const audio = new Audio("/public/ringtone.mp3");
     audio.play();
 });
 
