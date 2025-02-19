@@ -310,9 +310,9 @@ async function endVoiceCall(redirectToChat = true) {
 
     try {
         if (localTracks.audioTrack) {
-            localTracks.audioTrack.stop();
-            localTracks.audioTrack.close();
-            localTracks.audioTrack = null;
+            localTracks.audioTrack?.stop();
+            localTracks.audioTrack?.close();
+            localTracks = { audioTrack: null };
         }
 
         if (callInProgress && agoraClient) {

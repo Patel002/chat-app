@@ -10,7 +10,8 @@ let users = [];
 export const initSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: 'https://chat-app-git-main-chill-guys-projects.vercel.app',            methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
+            origin:"https://chat-app-git-main-chill-guys-projects.vercel.app",
+            methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'],
             allowedHeaders: ['Content-Type', 'Authorization'],
         }
     })
@@ -143,7 +144,7 @@ export const initSocket = (server) => {
             io.to(to).emit('videoCallAnswer', { answer, from });
         });
 
-        socket.on('endCall', ({ to }) => {
+        socket.on('endCall', ({ to, from }) => {
             io.to(to).emit('endCall');
             io.to(from).emit('endCall');
             socket.disconnect(true)

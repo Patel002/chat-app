@@ -1,7 +1,26 @@
+const socket = io('https://chat-app-4dp7.onrender.com',{
+    transports: ['websocket'],  
+    auth: { token: localStorage.getItem('token') }
+});
+
 const localAudio = document.getElementById('localAudio');
 const remoteAudio = document.getElementById('remoteAudio');
 const endCallButton = document.getElementById('endCallButton');
 const muteButton = document.getElementById('muteButton');
+
+const token = localStorage.getItem('token');
+
+if (!token) {
+    alert('You must be logged in to make a voice call.');
+    window.location.href = 'index.html';
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+let receiverId = urlParams.get('userId');
+
+const payload = JSON.parse(atob(token.split('.')[1]));
+const userId = payload.id;
+const senderId = userId;
 
 let localTracks = {
     audioTrack: null
@@ -11,7 +30,7 @@ let callInProgress = false;
 let isMuted = true;
 
 const AGORA_APP_ID = 'be1a0d343fb54bac8cf7adc8615d8648';
-const AGORA_CHANNEL = 'testing_channel';
+const AGORA_CHANNEL = `${Math.min(senderId, receiverId)}_${Math.max(senderId, receiverId)}`;
 const AGORA_TOKEN = null;
 
 const agoraClient = AgoraRTC.createClient({
@@ -113,7 +132,7 @@ async function endVoiceCall() {
         callInProgress = false;
 
         console.log("Voice call ended.");
-        socket.emit('endCall', { to: receiverId });
+        socket.emit('endVoiceCall', { to: receiverId });
         window.location.href = 'chat.html';
     } catch (error) {
         console.error('Error ending voice call:', error);
