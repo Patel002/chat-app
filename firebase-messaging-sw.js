@@ -22,10 +22,10 @@ messaging.onBackgroundMessage((payload) => {
         return;
     }
     const channel = new BroadcastChannel("fcm_notifications");
-    channel.postMessage(payload.notification);
-
-    self.registration.showNotification(payload.notification.title, payload.notification.body);
-
+    channel.postMessage({
+        title: payload.notification.title,
+        body: payload.notification.body
+    });
 });
 
 self.addEventListener("notificationclick", (event) => {

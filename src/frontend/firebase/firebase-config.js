@@ -53,7 +53,7 @@ if (payload.data) {
 
     new Notification(title, notificationOptions);
 
-    const audio = new Audio("../public/ringtone.mp3");
+    const audio = new Audio("/public/ringtone.mp3");
     audio.play();
 
 } else {
