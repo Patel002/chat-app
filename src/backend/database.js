@@ -7,6 +7,7 @@ const dbConfig = {
     database: process.env.DB_NAME || "bppnidd9dftravakxivc",
     port: process.env.DB_PORT || 3306    
 }
+console.log(dbConfig)
 
 const database = async() => {
     try {

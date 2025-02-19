@@ -5,7 +5,8 @@ const sequelize = new Sequelize(
     'untlslcyornlvdx1',
     'IlqALEEfzMSOtxWPwgKW',
     {
-        host: 'bppnidd9dftravakxivc-mysql.services.clever-cloud.com', dialect: 'mysql' ,logging: false
+        host: 'bppnidd9dftravakxivc-mysql.services.clever-cloud.com', dialect: 'mysql' ,logging: false,
+        timezone: '+05:00'
     }
 )
 
