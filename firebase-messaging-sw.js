@@ -15,14 +15,16 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-    console.log("[firebase-sw] Background Message received:",payload);
+    console.log("[firebase-sw] Background Message received:", JSON.stringify(payload, null, 2));
 
-    if(!payload.data) {
+    if(!payload.notification) {
         console.warn("No notification payload received.");
         return;
     }
     const channel = new BroadcastChannel("fcm_notifications");
     channel.postMessage(payload.notification);
+
+    self.registration.showNotification(payload.notification.title, payload.notification.body);
 
 });
 
