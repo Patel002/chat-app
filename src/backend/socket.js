@@ -144,9 +144,8 @@ export const initSocket = (server) => {
             io.to(to).emit('videoCallAnswer', { answer, from });
         });
 
-        socket.on('endCall', ({ to, from }) => {
+        socket.on('endCall', ({ to }) => {
             io.to(to).emit('endCall');
-            io.to(from).emit('endCall');
             socket.disconnect(true)
         });
 
