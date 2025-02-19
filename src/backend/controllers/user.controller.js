@@ -1,6 +1,6 @@
 import User from "../model/user.model.js";
 import jwt from "jsonwebtoken";
-import { Op, where } from "sequelize";
+import { Op } from "sequelize";
 
 const registerUser = async (req, res) => {
     const { userName, password, email } = req.body
