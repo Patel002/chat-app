@@ -17,14 +17,14 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
     console.log("[firebase-sw] Background Message received:", JSON.stringify(payload, null, 2));
 
-    if(!payload.notification) {
+    if(!payload.data) {
         console.warn("No notification payload received.");
         return;
     }
     const channel = new BroadcastChannel("fcm_notifications");
     channel.postMessage({
-        title: payload.notification.title,
-        body: payload.notification.body
+        title: payload.data.title,
+        body: payload.data.body
     });
 });
 
