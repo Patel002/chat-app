@@ -79,7 +79,6 @@ channel.addEventListener("message", (event) => {
     audio.play();
 });
 
-
 async function sendNotification(message, receiverId) {
     try {
         const receiversTokenResponse = await fetch(`https://chat-app-4dp7.onrender.com/api/v1/fcm-token/get-fcm-token/${receiverId}`);

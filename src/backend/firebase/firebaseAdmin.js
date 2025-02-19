@@ -15,7 +15,7 @@ try {
   const serviceAccountJson = Buffer.from(serviceAccountBase64, 'base64').toString('utf-8');
   
   const serviceAccount = JSON.parse(serviceAccountJson);
-  console.log("This is service account key",serviceAccount);
+  // console.log("This is service account key",serviceAccount);
   
   admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
