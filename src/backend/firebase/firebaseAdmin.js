@@ -5,7 +5,7 @@ dotenv.config();
 
 const serviceAccountBase64 = process.env.FIREBASE_SERVICE_ACCOUNT_KEY
 
-// console.log(serviceAccountBase64);
+console.log(serviceAccountBase64);
 
 if (!serviceAccountBase64) {
   throw new Error("Missing FIREBASE_SERVICE_ACCOUNT_KEY in .env file");
