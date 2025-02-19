@@ -61,23 +61,23 @@ if (payload.data) {
 } 
 });
 
-const channel = new BroadcastChannel("fcm_notifications");
+// const channel = new BroadcastChannel("fcm_notifications");
 
-channel.addEventListener("message", (event) => {
-    console.log("[BroadcastChannel] Received notification:", event.data);
+// channel.addEventListener("message", (event) => {
+//     console.log("[BroadcastChannel] Received notification:", event.data);
 
-    const { title, body } = event.data;
+//     const { title, body } = event.data;
 
-    const notificationOptions = {
-        body: body,
-        icon: "/public/notify.png",
-    };
+//     const notificationOptions = {
+//         body: body,
+//         icon: "/public/notify.png",
+//     };
 
-    new Notification(title, notificationOptions);
+//     new Notification(title, notificationOptions);
 
-    const audio = new Audio("/public/ringtone.mp3");
-    audio.play();
-});
+//     const audio = new Audio("/public/ringtone.mp3");
+//     audio.play();
+// });
 
 async function sendNotification(message, receiverId) {
     try {
