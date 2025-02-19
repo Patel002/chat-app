@@ -15,7 +15,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-    console.log("[firebase-sw] Background Message received:",Json.stringify(payload, null, 2));
+    console.log("[firebase-sw] Background Message received:",payload);
 
     if(!payload.data) {
         console.warn("No notification payload received.");
