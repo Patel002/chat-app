@@ -19,7 +19,7 @@ const FcmToken = sequelize.define('fcmToken', {
     timestamps: true
 });
 
-    // FcmToken.sync({alter: true})
-    // .then(() => console.log("FCM Token table created"))
+    FcmToken.sync({alter: true})
+    .then(() => console.log("FCM Token table created"))
 
 export default FcmToken
