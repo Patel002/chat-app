@@ -333,7 +333,7 @@ async function endVoiceCall(redirectToChat = true) {
            if(receiverId) {
             sessionStorage.setItem('returnToChat', receiverId);
            }
-           window.location.href = 'chat.html';
+           window.location.replace = 'chat.html';
         }
 
     } catch (error) {
@@ -347,11 +347,10 @@ socket.on('endCall', () => {
     endVoiceCall(); 
 });
 
-// window.onpopstate = () => {
-//     if (!callInProgress) {
-//         window.location.href = 'chat.html';
-//     }
-// };
+window.onpopstate = () => {
+   history.pushState(null, null, window.location.href);
+   alert('Back button is disabled');
+};
 
 window.addEventListener('beforeunload', () => {
     endVoiceCall(false); 
