@@ -134,8 +134,32 @@ const getAllRegisterdUsers = async (req, res) => {
     }
 }
 
+const userEmailVerification = async (req, res) => {
+    const { userName } = req.body
+
+    try {
+        const user = await User.findOne({where: {userName}})
+        if(!user) {
+            return res.status(404).json({
+                message: "User not found"
+            })
+        }
+
+        return res.status(201).json({
+            message: "Email sent successfully",
+            user: user.email
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: "Something went wrong while sending email",
+            error: error.message
+        })
+    }
+}
+
 export { 
     registerUser,
     loginUser,
-    getAllRegisterdUsers
+    getAllRegisterdUsers,
+    userEmailVerification
 }
