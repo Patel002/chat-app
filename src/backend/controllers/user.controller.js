@@ -144,10 +144,9 @@ const userEmailVerification = async (req, res) => {
                 message: "User not found"
             })
         }
-
         return res.status(201).json({
             message: "Email sent successfully",
-            user: user.email
+            email: user.email
         })
     } catch (error) {
         return res.status(500).json({

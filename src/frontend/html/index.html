@@ -49,13 +49,15 @@
                  body: JSON.stringify({userName: username})
              })
  
+            //  console.log(emailVerfiy);
+
              const {email} = await emailVerfiy.json();
-             console.log(email);
+
+             console.log("email:",email);
              if(!email){
                  alert('Email Not Found Please Register First');
                  return;
              }
- 
            
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;

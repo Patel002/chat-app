@@ -84,9 +84,10 @@ if (payload.data) {
 async function sendNotification(message, receiverId) {
     try {
         const receiversTokenResponse = await fetch(`https://chat-app-4dp7.onrender.com/api/v1/fcm-token/get-fcm-token/${receiverId}`);
+
         const receiverTokenData = await receiversTokenResponse.json();
 
-        console.log("Fetched Receiver's Token Data:", receiverTokenData);
+        // console.log("Fetched Receiver's Token Data:", receiverTokenData);
 
         if (!receiverTokenData || !receiverTokenData.token.fcmToken) {
             console.log("Receiver's FCM Token not found. Skipping notification.");
@@ -95,9 +96,9 @@ async function sendNotification(message, receiverId) {
 
         const fcmToken = receiverTokenData.token.fcmToken;
 
-        console.log("Message:", message);
-        console.log("Receiver ID:", receiverId);
-        console.log("FCM Token:", fcmToken);
+        // console.log("Message:", message);
+        // console.log("Receiver ID:", receiverId);
+        // console.log("FCM Token:", fcmToken);
 
         const response = await fetch('https://chat-app-4dp7.onrender.com/api/v1/notification/notify', {
             method: 'POST',
