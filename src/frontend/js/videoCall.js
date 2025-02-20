@@ -62,9 +62,18 @@ async function startCall() {
             }),
 
             AgoraRTC.createCameraVideoTrack({
-                encoderConfig: "720p_15",
-                facingMode: 'user',
-                optimizationMode: "detail"
+                encoderConfig: {
+                    codec: 'vp8',
+                    bitrateMax: 1600,
+                    bitrateMin: 800,
+                    width: 640,
+                    height: 480,
+                    frameRate: 30,  
+                    orientationMode: 'adaptative',
+                    mirrorMode: 'auto',
+                    facingMode: 'user',
+                    optimizationMode: "detail"
+                }
             })
         ]);
 
@@ -333,7 +342,7 @@ async function endVoiceCall(redirectToChat = true) {
            if(receiverId) {
             sessionStorage.setItem('returnToChat', receiverId);
            }
-           window.location.replace = 'chat.html';
+           window.location.href = 'chat.html';
         }
 
     } catch (error) {
@@ -347,10 +356,11 @@ socket.on('endCall', () => {
     endVoiceCall(); 
 });
 
-window.addEventListener('popstate', (event) => {
-    history.pushState(null, null, window.location.href);
-    alert("Please end the call before going back.");
-});
+window.onpopstate = () => {
+    if (!callInProgress) {
+        window.location.href = 'chat.html';
+    }
+};
 
 window.addEventListener('beforeunload', () => {
     endVoiceCall(false); 
