@@ -50,7 +50,7 @@ messaging.onBackgroundMessage((payload) => {
     const { title, body } = payload.data;
     const notificationOptions = {
         body: body,
-        icon: "/src/frontend/public/notify.bmp", 
+        icon: "/src/frontend/public/notify.png", 
         vibrate: [200, 100, 200]
     };
 
