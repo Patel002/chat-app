@@ -326,10 +326,10 @@ async function endVoiceCall(redirectToChat = true) {
         }
         console.log("Call ended");
 
-        if (redirectToChat) {
-            sessionStorage.setItem('callEnded', true); 
-            window.location.href = 'chat.html';
-        }
+        // if (redirectToChat) {
+        //     sessionStorage.setItem('callEnded', true); 
+        //     window.location.href = 'chat.html';
+        // }
 
     } catch (error) {
         console.error('Error ending the call:', error);
