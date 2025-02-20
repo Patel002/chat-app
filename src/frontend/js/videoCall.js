@@ -347,10 +347,10 @@ socket.on('endCall', () => {
     endVoiceCall(); 
 });
 
-window.onpopstate = () => {
-   history.pushState(null, null, window.location.href);
-   alert('Back button is disabled');
-};
+window.addEventListener('popstate', (event) => {
+    history.pushState(null, null, window.location.href);
+    alert("Please end the call before going back.");
+});
 
 window.addEventListener('beforeunload', () => {
     endVoiceCall(false); 
