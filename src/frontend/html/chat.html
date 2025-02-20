@@ -176,6 +176,26 @@ handleToggleButton();
         window.location.href = `./videocall.html?userId=${receiverId}`;
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const returnToChat = sessionStorage.getItem('returnToChat');
+
+    if(returnToChat){
+    openChatWithUser(returnToChat);
+
+    sessionStorage.removeItem('returnToChat');
+    }
+});
+function openChatWithUser(userId) {
+    console.log(`opning chat with user: ${userId}`);
+
+    const userElement = document.querySelector(`[data-user-id="${userId}"]`);
+
+    if(userElement){
+        userElement.classList.add('active');
+    }
+    loadMessages(userId);
+}
         const socket = io(`https://chat-app-4dp7.onrender.com`,{
             auth: {
                 token
