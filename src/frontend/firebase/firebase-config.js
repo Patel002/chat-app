@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
 import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-messaging.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAx1R7Sr2wUQdX9jjk5q3nihSLcNHt8WYA",
@@ -13,6 +14,7 @@ const firebaseConfig = {
 
     const app = initializeApp(firebaseConfig);
     const messaging = getMessaging(app);
+    const auth = getAuth(app);
 
     if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/firebase-messaging-sw.js") 
@@ -122,4 +124,4 @@ async function sendNotification(message, receiverId) {
     }
 }
 
-export { requestFcmTokenPermission,sendNotification, messaging }
+export { requestFcmTokenPermission,sendNotification, messaging, auth };
