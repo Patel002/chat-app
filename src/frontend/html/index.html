@@ -29,7 +29,8 @@
     </div>
     <script type="module">
         
-        import {requestFcmTokenPermission} from "../firebase/firebase-config.js";
+        import {requestFcmTokenPermission, auth} from "../firebase/firebase-config.js";
+        import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
         const registerForm = document.getElementById('RegisterForm');
         const loginForm = document.getElementById('LoginForm');
@@ -53,7 +54,15 @@
             if(response.ok){
                 localStorage.setItem('token',data.token);
 
-                const fcmToken = await requestFcmTokenPermission();
+                 const userCredential = await signInWithEmailAndPassword(auth,username,password);
+                const user = userCredential.user;
+
+                if(!user.emailVerified){
+                    alert('Please Verify Your Email before Login');
+                    return;
+                }
+
+                    const fcmToken = await requestFcmTokenPermission();
             
                 if (fcmToken) {
                     console.log("FCM Token:", fcmToken);
@@ -80,24 +89,34 @@
             const password = document.getElementById('RegisterPassword').value;
             const email = document.getElementById('RegisterEmail').value;
 
-            const response = await fetch(`https://chat-app-4dp7.onrender.com/api/v1/user/register`,{
-                method: 'POST',
-                headers: {
-                    'content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userName: username,
-                    password,
-                    email
-                })
-            })
-
-            const data = await response.json();
-            if(response.ok){
-                alert('SingIn Successfully');
-            }else{
-                alert(data.message || 'Please Fill All Field Correctly');
-            }
+           try {
+             const userCredential = await createUserWithEmailAndPassword(auth,email,password);
+             const user = userCredential.user;
+ 
+             await sendEmailVerification(user);
+             alert('Please Verify Your Email');
+ 
+             const response = await fetch(`https://chat-app-4dp7.onrender.com/api/v1/user/register`,{
+                 method: 'POST',
+                 headers: {
+                     'content-Type': 'application/json'
+                 },
+                 body: JSON.stringify({
+                     userName: username,
+                     password,
+                     email
+                 })
+             })
+ 
+             const data = await response.json();
+             if(response.ok){
+                 alert('SingIn Successfully');
+             }else{
+                 alert(data.message || 'Please Fill All Field Correctly');
+             }
+           } catch (error) {
+               alert(error.message || 'Registeration Failed');
+           }
         })
     </script>
     
