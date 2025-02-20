@@ -342,17 +342,17 @@ socket.on('endCall', () => {
     endVoiceCall(); 
 });
 
-window.onpopstate = () => {
-    if (!callInProgress) {
-        window.location.href = 'chat.html';
-    }
-};
+// window.onpopstate = () => {
+//     if (!callInProgress) {
+//         window.location.href = 'chat.html';
+//     }
+// };
 
 window.addEventListener('beforeunload', () => {
     endVoiceCall(false); 
 });
 
-if (sessionStorage.getItem('callEnded')) {
-    sessionStorage.removeItem('callEnded');
-    window.location.href = 'chat.html';
-}
+// if (sessionStorage.getItem('callEnded')) {
+//     sessionStorage.removeItem('callEnded');
+//     window.location.href = 'chat.html';
+// }
