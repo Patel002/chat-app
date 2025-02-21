@@ -267,7 +267,7 @@ function resetTimestamp(userName) {
 
                     searchResult.innerHTML = '';
                     resetUserCount(users.userName)
-                    currentReceiver = users.userName
+                    // currentReceiver = users.userName
                 })
                 searchResult.appendChild(userItem)
             }else{
@@ -307,7 +307,7 @@ function resetTimestamp(userName) {
 
         userItem.addEventListener('click', () => {
             receiverId = user.id;
-            currentReceiver = user.userName;
+            // currentReceiver = user.userName;
             receiverName.textContent = `${user.userName}`;
             loadMessages(receiverId);
         });
