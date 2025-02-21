@@ -16,7 +16,7 @@ const User = sequelize.define('user', {
         validate: {
             notEmpty: true,
             is: {
-                args: /^[a-zA-Z0-9]{8,16}$/,
+                args: /^[a-zA-Z0-9!@#$%^&*()-_+=]{8,16}$/,
                 msg: 'Password must be 8 to 16 characters long and contain only letters and numbers'
             }
         }
