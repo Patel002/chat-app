@@ -54,7 +54,5 @@ messaging.onBackgroundMessage((payload) => {
         sound: "/src/frontend/public/ringtone.mp3",
         vibrate: [200, 100, 200]
     };
-    sound.play();
-
     self.registration.showNotification(title, notificationOptions);
 });
