@@ -41,27 +41,27 @@ const permission = await Notification.requestPermission();
     }
 }
 
-onMessage(messaging, (payload) => {
-console.log("[onMessage] Message received:", payload);
+// onMessage(messaging, (payload) => {
+// console.log("[onMessage] Message received:", payload);
 
-if (payload.data) {
-    const { title, body } = payload.data;
+// if (payload.data) {
+//     const { title, body } = payload.data;
 
-    const notificationOptions = {
-        body: body,
-        icon: "/public/notify.png" ,
-        sound: "/public/ringtone.mp3",
-    };
+//     const notificationOptions = {
+//         body: body,
+//         icon: "/public/notify.png" ,
+//         sound: "/public/ringtone.mp3",
+//     };
 
-    new Notification(title, notificationOptions);
+//     new Notification(title, notificationOptions);
 
-    const audio = new Audio("/public/ringtone.mp3");
-    audio.play();
+//     const audio = new Audio("/public/ringtone.mp3");
+//     audio.play();
 
-} else {
-    console.warn("No notification payload found!");
-} 
-});
+// } else {
+//     console.warn("No notification payload found!");
+// } 
+// });
 
 // const channel = new BroadcastChannel("fcm_notifications");
 
