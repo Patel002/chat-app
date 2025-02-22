@@ -345,7 +345,7 @@ function resetTimestamp(userName) {
 
             const timestamp = document.createElement('span');
             timestamp.classList.add('timestamp');
-            timestamp.textContent = user.lastMessageTime ? new Date(user.lastMessageTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+            timestamp.textContent = user.lastMessageTime ? new Date(user.lastMessageTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) : '';
             userItem.appendChild(timestamp)
 
             userItem.appendChild(unreadCount);
@@ -486,7 +486,7 @@ function removeMessage(messageId) {
                 messages.forEach(message => {
                     const messageDiv = document.createElement('div');
                     messageDiv.setAttribute('data-message-id', message.id);
-                    const messageTime = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                    const messageTime = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
                     const messageText = document.createElement('span');
                     messageText.className = 'message-text'
 
@@ -648,7 +648,7 @@ function removeMessage(messageId) {
         { 
             hour: '2-digit', 
             minute: '2-digit', 
-            hour12: false 
+            hour12: true 
         });   
         
             const userItem = Array.from(userList.children).find(item => item.getAttribute('data-user-id') === String(receiverId));
@@ -673,7 +673,7 @@ function removeMessage(messageId) {
     });
 
     socket.on('receiveMessage', (message) => {
-        const currentTime = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',hour12: false });
+        const currentTime = new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',hour12: true });
   
         const userItems = Array.from(userList.children)
         const userItem = userItems.find((item) => item.getAttribute('data-user-id') === String(message.senderId));
