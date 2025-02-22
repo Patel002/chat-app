@@ -92,34 +92,35 @@ const chatHeader = document.getElementById('.chat-header h2');
 
 function handleToggleButton() {
     if (window.innerWidth <= 480) {
-        toggleButton.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-            if (sidebar.classList.contains('open')) {
-                icon.style.display = 'none'; 
-            } else {
-                icon.style.display = 'block'; 
-            }
-            if (sidebar.classList.contains('open')) {
-                icon1.style.display = 'none'; 
-            } else {
-                icon1.style.display = 'block'; 
-            }
-        });
+        toggleButton.style.display = 'block'; 
+    } else {
+        toggleButton.style.display = 'none'; 
+        sidebar.classList.remove('open'); 
     }
 }
 
-window.addEventListener('resize', () => {
-
-    if (window.innerWidth <= 480) {
-        handleToggleButton();
-      toggleButton.style.display = 'block'; 
-    } else {
-        toggleButton.removeEventListener('click', () => {
-            sidebar.classList.toggle('open');
-        });
-        toggleButton.style.display = 'none'; 
-    }
+toggleButton.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    const isOpen = sidebar.classList.contains('open');
+    icon.style.display = isOpen ? 'none' : 'block';
+    icon1.style.display = isOpen ? 'none' : 'block';
 });
+
+
+// window.addEventListener('resize', () => {
+
+//     if (window.innerWidth <= 480) {
+//         handleToggleButton();
+//       toggleButton.style.display = 'block'; 
+//     } else {
+//         toggleButton.removeEventListener('click', () => {
+//             sidebar.classList.toggle('open');
+//         });
+//         toggleButton.style.display = 'none'; 
+//     }
+// });
+
+window.addEventListener('resize', handleToggleButton);
 handleToggleButton();
 
         let offset = 0;
